@@ -145,7 +145,7 @@ class UserController
 
         // En cas d'erreur, on réaffiche le formulaire.
         ob_start();
-        require TEMPLATE_VIEW_PATH . 'connexionForm.php';
+        require TEMPLATE_VIEW_PATH . 'login.php';
         $content = ob_get_clean();
 
         require TEMPLATE_VIEW_PATH . 'main.php';
