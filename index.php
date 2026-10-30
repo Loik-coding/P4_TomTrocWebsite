@@ -16,6 +16,11 @@ switch ($page) {
         $controller->booksListing();
         break;
 
+    case 'bookDetails':
+        $controller = new BookController();
+        $controller->bookDetails();
+        break;
+
     default:
         echo "Page introuvable.";
         break;
