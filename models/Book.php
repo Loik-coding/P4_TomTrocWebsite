@@ -55,4 +55,9 @@ class Book
     {
         return $this->user_id;
     }
+
+    public function getPseudoById($user_id)
+    {
+        
+    }
 }

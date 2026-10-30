@@ -1,14 +1,22 @@
 
 <?php
 
-
 require_once 'config/autoload.php';
+require_once 'config/config.php';
 
-$bookManager = new BookManager();
+// On récupère la page demandée dans l'URL.
+// Par défaut, on affiche la liste des livres.
+$page = $_GET['page'] ?? 'booksListing';
 
-$books = $bookManager->getAllBooksAvailable();
+// On choisit le contrôleur selon la page demandée.
+switch ($page) {
 
-foreach ($books as $book) {
-    echo $book->getTitle() . ' - ';
-    echo $book->getAuthor() . '<br>';
+    case 'booksListing':
+        $controller = new BookController();
+        $controller->booksListing();
+        break;
+
+    default:
+        echo "Page introuvable.";
+        break;
 }

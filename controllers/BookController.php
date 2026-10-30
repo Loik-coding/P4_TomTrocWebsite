@@ -1,29 +1,21 @@
 <?php
+
 class BookController
 {
-    /**
-     * Affiche la page d'accueil.
-     * @return void
-     */
-    public function showHome() : void
+    public function booksListing()
     {
+        // on instancie le manager
         $bookManager = new BookManager();
-        $books = $bookManager->getAllbooks();
 
-        $view = new View("Accueil");
-        $view->render("home", ['articles' => $articles]);
-    }
+        // on récupère les livres disponibles
+        $books = $bookManager->getAllBooksAvailable();
 
-    /**
-     * Affiche un tableau avec tous les livres disponibles
-     * @return void
-     */
-    public function showListing()
-    {
-        $bookManager = new BookManager();
-        $books = $bookManager->getAllBooksAvaliable();
+        //on charge la vue avec les données
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'booksListing.php';
+        $content = ob_get_clean();
 
-        require 'views/books.php';
-
+        // On affiche le template principal.
+        require TEMPLATE_VIEW_PATH . 'main.php';
     }
 }
