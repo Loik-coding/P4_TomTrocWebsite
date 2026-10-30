@@ -21,4 +21,11 @@ class Utils {
         return $_REQUEST[$variableName] ?? $defaultValue;
     }
 
+    /**
+     * Cette méthode permet de savoir si l'utilisateur est connecté ou non.
+     */
+    public static function isUserConnected(): bool
+    {
+        return isset($_SESSION['user']);
+    }
 }

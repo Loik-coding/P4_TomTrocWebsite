@@ -21,6 +21,32 @@ switch ($page) {
         $controller->bookDetails();
         break;
 
+    case 'register':
+        $controller = new UserController();
+        $controller->register();
+        break;
+
+    case 'registerForm':
+        $controller = new UserController();
+        $controller->registerForm();
+        break;
+
+    case 'login':
+        $controller = new UserController();
+        $controller->login();
+        break;
+
+    case 'loginForm' :
+        $controller = new UserController();
+        $controller->loginForm();
+        break;
+      
+        case 'logout' :
+        $controller = new UserController();
+        $controller->logout();
+        break;
+      
+
     default:
         echo "Page introuvable.";
         break;
