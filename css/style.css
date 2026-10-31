@@ -64,10 +64,21 @@ header h1 {
 
 nav {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 25px;
 }
 
+.nav-left {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.nav-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
 nav a {
     font-size: 14px;
     font-weight: 600;
@@ -78,6 +89,46 @@ nav a:hover {
     color: var(--color-primary);
 }
 
+
+.nav-svg {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--color-text);
+    transition: color 0.2s;
+}
+
+.nav-svg:hover {
+    color: var(--color-primary);
+}
+
+.icon-message {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+
+    background-color: currentColor;
+
+    -webkit-mask: url("../images/logo/message.svg") no-repeat center;
+    mask: url("../images/logo/message.svg") no-repeat center;
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.icon-account {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+
+    background-color: currentColor;
+
+    -webkit-mask: url("../images/logo/account.svg") no-repeat center;
+    mask: url("../images/logo/account.svg") no-repeat center;
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
 
 /* ==========================
    3. CONTENU PRINCIPAL
