@@ -42,4 +42,20 @@ class BookManager extends AbstractEntityManager
         return new Book($bookData);
 
     }
+
+    public function getLast4Books(): array
+    {
+        //on prépare la requete SQL
+        $sql = "SELECT * FROM books WHERE availability = TRUE ORDER BY id DESC LIMIT 4";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        //on récupère le résultat
+        $last4Books = [];
+        while ($bookData = $query->fetch()) {
+            $last4Books[] = new Book($bookData);
+        }
+
+        return $last4Books;     
+    }
 }

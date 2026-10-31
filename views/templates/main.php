@@ -13,6 +13,7 @@
     <header>
         <h1>TomTroc</h1>
         <nav>
+            <a href="index.php?page=home">Accueil</a>
             <a href="index.php?page=booksListing">Nos livres</a>
             <?php if (Utils::isUserConnected()) : ?>
                 <span>

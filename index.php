@@ -11,6 +11,11 @@ $page = $_GET['page'] ?? 'booksListing';
 // On choisit le contrôleur selon la page demandée.
 switch ($page) {
 
+    case 'home':
+        $controller = new HomeController();
+        $controller->home();
+        break;
+
     case 'booksListing':
         $controller = new BookController();
         $controller->booksListing();
