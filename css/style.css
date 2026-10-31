@@ -84,8 +84,8 @@ nav a:hover {
 ========================== */
 
 main {
-    width: 86%;
-    max-width: 1200px;
+    background-color : var(--color-background2);
+    width: 100%;    
     min-height: 75vh;
     margin: 50px auto;
 }
@@ -106,6 +106,7 @@ main > h1 {
     align-items: center;
     justify-content: space-between;
     gap: 50px;
+    padding: 5% 20%;
 }
 
 .horizontal_container > div {
@@ -131,12 +132,66 @@ main > h1 {
     font-size: 15px;
     font-weight: normal;
     transition: all 0.3s ease;
+    margin: 24px 0px;
 }
 
 .cta-button:hover {
     background-color: white;
     color: var(--color-primary);
     border-color: var(--color-primary);
+}
+
+.cta-button-inverted {
+    display: inline-block;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 12px 28px;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    transition: all 0.3s ease;
+    margin: 24px 0px;
+}
+
+.cta-button-inverted:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.centered_container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20%;
+}
+
+.centered_container h2 {
+    text-align: center;
+}
+
+.centered_container > .cta-button {
+    align-self: center;
+}
+
+.centered_container:nth-of-type(even) {
+    background-color: var(--color-background1);
+}
+
+.centered_container:nth-of-type(odd) {
+    background-color: var(--color-background2);
+}
+
+.full-width-image {
+    width: 100vw;
+    max-width: none;
+    height: auto;
+    display: block;
+    margin-left: calc(50% - 50vw);
 }
 
 /* ==========================
@@ -205,6 +260,21 @@ main > h1 {
     height: auto;
     display: block;
     margin-bottom: 25px;
+}
+
+.howtodo {
+    margin: 0px 16px;
+    background-color: var(--color-white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
 }
 
 /* ==========================

@@ -1,5 +1,5 @@
-
-<div class="horizontal_container"><!-- 1er conteneur de la page  -->
+<!-- Section Découvrir  -->
+<div class="horizontal_container">
     <div>
         <h2>Rejoignez nos lecteurs passionés</h2>
         <p>Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture. 
@@ -10,10 +10,11 @@
         <img src="images/home/image_home.png" alt="Une boutique de livre." width="400" height="300">
     </div>
 </div>
-<div>
-    <h2>Les derniers livres ajoutés</h2>
-    <div class="book-list"><!-- les derniers livres ajoutés-->
 
+<!-- Section les derniers livres ajoutés-->
+<div class="centered_container">
+    <h2>Les derniers livres ajoutés</h2>
+    <div class="book-list">
         <?php foreach ($last4Books as $book) : ?>
             <a href="index.php?page=bookDetails&id=<?= $book->getId() ?>">
                 <article class="book-card">
@@ -24,23 +25,35 @@
                 </article>
             </a>
         <?php endforeach; ?>
-        
     </div>
     <a href="index.php?page=booksListing" class="cta-button">Voir tous les livres</a>
 </div>
-<div>
+
+<!-- Section comment ça marche-->
+<div class="centered_container" style>
     <h2>Comment ça marche ?</h2>
     <p>Échanger des livres avec TomTroc c’est simple et amusant ! Suivez ces étapes pour commencer :</p>
     <div class="book-list">
-        <p>Inscrivez-vous gratuitement sur notre plateforme.</p>
-        <p>Ajoutez les livres que vous souhaitez échanger à votre profil.</p>
-        <p>Parcourez les livres disponibles chez d'autres membres.</p>
-        <p>Proposez un échange et discutez avec d'autres passionnés de lecture.</p>
+        <article class="howtodo">
+            <p>Inscrivez-vous gratuitement sur notre plateforme.</p>
+        </article>
+        <article class="howtodo">
+            <p>Ajoutez les livres que vous souhaitez échanger à votre profil.</p>
+        </article>
+        <article class="howtodo">
+            <p>Parcourez les livres disponibles chez d'autres membres.</p>
+        </article>
+        <article class="howtodo">
+            <p>Proposez un échange et discutez avec d'autres passionnés de lecture.</p>
+        </article>
     </div>
-    <a href="index.php?page=booksListing" class="cta-button">Voir tous les livres</a>
+    <a href="index.php?page=booksListing" class="cta-button-inverted">Voir tous les livres</a>
 </div>
-<img src="images/home/image_home2.png" alt="Une blibliothèque">
-<div>
+
+<img src="images/home/image_home2.png" alt="Une bibliothèque" class="full-width-image">
+
+<!-- Section Nos valeurs-->
+<div class="centered_container">
     <h2>Nos Valeurs</h2>
     <p>
         Chez Tom Troc, nous mettons l'accent sur le partage, la découverte et la communauté. 
