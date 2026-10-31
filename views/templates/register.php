@@ -44,7 +44,7 @@
     <button type="submit">Créer mon compte</button>
 
 <p>
-    Déjà incrit ?
+    Déjà inscrit ?
     <a href="index.php?page=login">Se connecter</a>
 </p>
 
