@@ -159,4 +159,36 @@ class UserController
         exit;
     }
 
+    public function myAccount()
+    {
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=home');
+            exit;
+        }
+        //Get user id from session
+        $userId = $_SESSION['user']['id'] ?? null;
+
+        //Get user info from database
+        $userManager = new UserManager();
+        $user = $userManager->getUserById($userId);
+
+        //Get user pseudo
+        $userPseudo = $user->getPseudo();
+        //Get user email
+        $userEmail = $user->getEmail();
+        //Get user password
+        $userPassword = $user->getPassword();
+        //Get user profile picture
+        $userProfilePicture = $user->getProfilePicture();
+
+        //get the number of books owned by the user
+        $bookManager = new BookManager();
+        $booksCount = $bookManager->getBooksCountByUserId($userId);
+
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'myAccount.php';
+        $content = ob_get_clean();
+
+        require TEMPLATE_VIEW_PATH . 'main.php';
+    }
 }

@@ -6,6 +6,7 @@ class user
     private $pseudo;
     private $email;
     private $password;
+    private $profilePicture;
 
     public function __construct(array $data)
     {
@@ -13,6 +14,7 @@ class user
         $this->pseudo = $data['pseudo'];
         $this->email = $data['email'];
         $this->password = $data['password'];
+        $this->profilePicture = $data['image'];
     }
 
     public function getId()
@@ -34,6 +36,11 @@ class user
     {
         return $this->password;
     } 
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
 
 
 

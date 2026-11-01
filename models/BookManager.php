@@ -75,4 +75,15 @@ class BookManager extends AbstractEntityManager
 
         return $books;
     }
+
+    public function getBooksCountByUserId(int $userId): int
+    {
+        $sql = "SELECT COUNT(*) as bookCount FROM books WHERE user_id = :userId";
+        $query = $this->db->prepare($sql);
+        $query->execute([
+            'userId' => $userId
+        ]);
+        $result = $query->fetch();
+        return $result['booksCount'] ?? 0;
+    }
 }

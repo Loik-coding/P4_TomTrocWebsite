@@ -32,4 +32,20 @@ class UserManager extends AbstractEntityManager
         ]);
     }
 
+    public function getUserById(int $id): ?User
+    {
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $query = $this->db->prepare($sql);
+        $query->execute([
+            'id' => $id
+        ]);
+        $userData = $query->fetch();
+
+        if (!$userData) {
+            return null;
+        }
+
+        return new User($userData);
+    }
+
 }

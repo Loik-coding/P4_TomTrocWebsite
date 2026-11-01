@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <div class="horizontal_container">
     <div>
         <h1>Nos livres à l'échange</h1>

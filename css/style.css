@@ -317,6 +317,13 @@ p {
     margin-left: calc(50% - 50vw);
 }
 
+.profile-picture {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 /* ==========================
    4. LISTE DES LIVRES
 ========================== */

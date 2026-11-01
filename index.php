@@ -51,6 +51,10 @@ switch ($page) {
         $controller->logout();
         break;
       
+        case 'myAccount' :
+        $controller = new UserController();
+        $controller->myAccount();
+        break;       
 
     default:
         echo "Page introuvable.";

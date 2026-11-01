@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 
 <div class="book-details">
     <div class="book-cover">

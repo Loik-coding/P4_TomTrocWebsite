@@ -11,6 +11,7 @@ class Book
     private $user_id;
     private $userPseudo;
     private $userCover;
+    private $booksCount;
 
     public function __construct(array $data)
     {
@@ -23,6 +24,7 @@ class Book
         $this->user_id = $data['user_id'];
         $this->userPseudo = $data['pseudo'] ?? null;  
         $this->userCover = $data['image'] ?? null;     
+        $this->booksCount = $data['booksCount'] ?? 0;
     }
 
     public function getId()
@@ -68,5 +70,10 @@ class Book
     public function getUserCover()
     {
         return $this->userCover;
+    }
+
+        public function getBooksCount()
+    {
+        return $this->booksCount;
     }
 }
