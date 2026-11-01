@@ -6,7 +6,7 @@ require_once 'config/config.php';
 
 // On récupère la page demandée dans l'URL.
 // Par défaut, on affiche la liste des livres.
-$page = $_GET['page'] ?? 'booksListing';
+$page = $_GET['page'] ?? 'home';
 
 // On choisit le contrôleur selon la page demandée.
 switch ($page) {

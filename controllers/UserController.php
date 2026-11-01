@@ -2,7 +2,7 @@
 
 class UserController
 {
-
+    
     public function login()
     {
         if (Utils::isUserConnected()) {
@@ -138,8 +138,8 @@ class UserController
                 'email' => $user->getEmail()
             ];
 
-            // On redirige vers la liste des livres.
-            header('Location: index.php?page=booksListing');
+            // On redirige vers l'accueil du site'.
+            header('Location: index.php?page=home');
             exit;
         }
 

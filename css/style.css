@@ -415,11 +415,16 @@ button:hover {
 ========================== */
 
 footer {
-    background-color: var(--color-primary-dark);
-    color: white;
-    padding: 25px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 40px;
+
+    background-color: var(--color-white);
+    color: var(--color-text);
+    padding: 12px 5%;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 

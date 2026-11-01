@@ -42,7 +42,8 @@
     <footer>
         <a href="index.php?page=booksListing">Politique de confidentialité</a>
         <a href="index.php?page=booksListing">Mentions légales</a>
-        <p>Tom Troc</p>
+        <p>Tom Troc©</p>
+        <img src="images/logo/logo-TT.svg" width=22px>
     </footer>
 
 </body>
