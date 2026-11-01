@@ -3,7 +3,9 @@
 <div class="horizontal-container">
     <div>
         <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
+        <a href="index.php?page=UpdateProfilePicture" class="underlined">modifier</a>
         <h2><?= htmlspecialchars($userPseudo) ?></h2>
+        <p>Membre depuis X ans</p>
         <p>BIBLIOTHEQUE</p>
         <p><?= htmlspecialchars($booksCount) ?> livres</p>
     </div>
@@ -26,3 +28,35 @@
         </form>
     </div>
 </div>
+<table class="books-array">
+    <thead>
+        <tr>
+            <th>PHOTO</th>
+            <th>TITRE</th>
+            <th>AUTEUR</th>
+            <th>DESCRIPTION</th>
+            <th>DISPONIBILITÉ</th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($userBooks as $userBook) : ?>
+            <tr>
+                <td>
+                    <img src="<?= htmlspecialchars($userBook->getCover()) ?>"
+                         alt="Couverture de <?= htmlspecialchars($userBook->getTitle()) ?>">
+                </td>
+                <td><?= htmlspecialchars($userBook->getTitle()) ?></td>
+                <td><?= htmlspecialchars($userBook->getAuthor()) ?></td>
+                <td><?= htmlspecialchars($userBook->getDescription()) ?></td>
+                <td>
+                    <?= $userBook->getAvailability() ? 'Disponible' : 'Indisponible' ?>
+                </td>
+                <td class="actions">
+                    <a href="index.php?page=updateBook&id=<?= $userBook->getId() ?>">Éditer</a>
+                    <a href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>">Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

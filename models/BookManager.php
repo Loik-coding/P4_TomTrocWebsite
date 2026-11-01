@@ -78,7 +78,7 @@ class BookManager extends AbstractEntityManager
 
     public function getBooksCountByUserId(int $userId): int
     {
-        $sql = "SELECT COUNT(*) as bookCount FROM books WHERE user_id = :userId";
+        $sql = "SELECT COUNT(*) as booksCount FROM books WHERE user_id = :userId";
         $query = $this->db->prepare($sql);
         $query->execute([
             'userId' => $userId
@@ -86,4 +86,25 @@ class BookManager extends AbstractEntityManager
         $result = $query->fetch();
         return $result['booksCount'] ?? 0;
     }
+
+    public function getBooksByUserId(int $id): array
+    {
+        //on prépare la requete SQL
+        $sql = "SELECT * FROM books WHERE user_id = :id";
+        $query = $this->db->prepare($sql);
+
+        //on associe la valeur de $id au paramètre :id
+        $query->execute(['id' => $id]);
+
+        //on récupère le résultat
+        $books = [];
+        
+        while ($bookData = $query->fetch()) {
+            $books[] = new Book($bookData);
+        }
+
+        return $books;
+
+    }
+
 }

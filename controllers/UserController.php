@@ -167,7 +167,6 @@ class UserController
         }
         //Get user id from session
         $userId = $_SESSION['user']['id'] ?? null;
-
         //Get user info from database
         $userManager = new UserManager();
         $user = $userManager->getUserById($userId);
@@ -184,6 +183,9 @@ class UserController
         //get the number of books owned by the user
         $bookManager = new BookManager();
         $booksCount = $bookManager->getBooksCountByUserId($userId);
+
+        //Get books owned by the user
+        $userBooks = $bookManager->getBooksByUserId($userId);
 
         ob_start();
         require TEMPLATE_VIEW_PATH . 'myAccount.php';
