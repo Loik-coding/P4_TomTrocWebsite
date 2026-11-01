@@ -7,8 +7,13 @@ class BookController
         // on instancie le manager
         $bookManager = new BookManager();
 
-        // on récupère les livres disponibles
-        $books = $bookManager->getAllBooksAvailable();
+        $search = trim($_GET['q'] ?? '');
+
+        if ($search !== '') {
+            $books = $bookManager->searchBooks($search);
+        } else {
+            $books = $bookManager->getAllBooksAvailable();
+        }
 
         //on charge la vue avec les données
         ob_start();

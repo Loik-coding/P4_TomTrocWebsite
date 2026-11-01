@@ -139,7 +139,7 @@ main {
     width: 100%;    
     min-height: 75vh;
     margin:  auto;
-    padding-top: 48px;
+    padding-top: 24px;
 }
 
 h1,
@@ -347,6 +347,50 @@ form {
     background-color: var(--color-white);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
+}
+
+.searchbar {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: var(--color-white);
+    padding: 5px 12px;
+    max-width: 322px;
+}
+
+.searchbar input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    padding: 10px;
+    background: transparent;
+    font-size: 14px;
+}
+
+.searchbar input:focus {
+    outline: none;
+
+}
+
+.searchbar button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.searchbar button:hover {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.searchbar button img {
+    width: 20px;
+    height: 20px;
 }
 
 form div {
