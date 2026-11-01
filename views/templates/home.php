@@ -1,5 +1,5 @@
 <!-- Section Découvrir  -->
-<div class="horizontal_container">
+<div class="horizontal_container_home">
     <div>
         <h2>Rejoignez nos lecteurs passionés</h2>
         <p>Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture. 
