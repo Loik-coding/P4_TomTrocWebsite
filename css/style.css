@@ -154,6 +154,10 @@ main > h1 {
     margin-left : 20%;
 }
 
+p {
+    font-size: 14px;
+}
+
 .horizontal_container {
     display: flex;
     align-items: center;
@@ -308,17 +312,67 @@ main > h1 {
 }
 
 .book-details {
-    background: white;
-    padding: 30px;
-    border-radius: var(--radius);
-    border: 1px solid var(--color-border);
+    display: flex;
+    width: 100%;
+    gap: 50px;
+    align-items: flex-start;
 }
 
-.book-details img {
-    max-width: 250px;
-    height: auto;
+.book-cover {
+    width: 50%;
+    height: 100vh;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 90%;
     display: block;
-    margin-bottom: 25px;
+}
+
+.book-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding : 50px 350px 0px 0px;
+    height: 95vh;
+}
+
+.book-info h1 {
+    margin-top: 0;
+}
+
+.book-info h2 {
+    color: var(--color-muted);
+    font-size: 16px;
+}
+
+.book-info span {
+    font-size: 8px;
+    margin-top: 20px;
+}
+
+.book-info a {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+}
+
+.owner-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.owner-info img {
+    width : 48px;
+    height : 48px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .howtodo {
