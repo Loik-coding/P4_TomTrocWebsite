@@ -14,7 +14,7 @@
         <span>PROPRIÉTAIRE</span>
         <div class="owner-info">
             <img src="<?= htmlspecialchars($book->getCover()) ?>">
-            <p><?=htmlspecialchars($book->getUserId())?></p>
+            <p><?=htmlspecialchars($book->getUserPseudo())?></p>
         </div>
         <a href="index.php?page=booksListing" class="cta-button">Envoyer un message</a>
     </div>

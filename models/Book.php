@@ -9,6 +9,7 @@ class Book
     private $availability;
     private $cover;
     private $user_id;
+    private $userPseudo;
 
     public function __construct(array $data)
     {
@@ -18,7 +19,8 @@ class Book
         $this->description = $data['description'];
         $this->availability = (bool) $data['availability'];
         $this->cover = $data['cover'];
-        $this->user_id = $data['user_id'];        
+        $this->user_id = $data['user_id'];
+        $this->userPseudo = $data['pseudo'] ?? null;       
     }
 
     public function getId()
@@ -56,8 +58,8 @@ class Book
         return $this->user_id;
     }
 
-    public function getPseudoById($user_id)
+    public function getUserPseudo()
     {
-        
+        return $this->userPseudo;
     }
 }
