@@ -193,4 +193,33 @@ class UserController
 
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
+
+    public function deleteBookById()
+    {
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=home');
+            exit;
+        }
+
+        $bookId = Utils::request("id", -1);
+
+        $bookManager = new BookManager();
+        $book = $bookManager->getBookById($bookId);
+
+        if ($book === null) {
+            echo "Livre introuvable.";
+            return;
+        }
+
+        $userId = $_SESSION['user']['id'] ?? null;
+        if ($book->getUserId() !== $userId) {
+            echo "Vous n'avez pas la permission de supprimer ce livre.";
+            return;
+        }
+
+        $bookManager->deleteBookById($bookId);
+
+        header('Location: index.php?page=myAccount');
+        exit;
+    }
 }

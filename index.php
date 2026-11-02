@@ -54,7 +54,12 @@ switch ($page) {
         case 'myAccount' :
         $controller = new UserController();
         $controller->myAccount();
-        break;       
+        break;    
+        
+        case 'deleteBook' :
+        $controller = new UserController();
+        $controller->deleteBookById();
+        break;
 
     default:
         echo "Page introuvable.";

@@ -54,7 +54,10 @@
                 </td>
                 <td class="actions">
                     <a href="index.php?page=updateBook&id=<?= $userBook->getId() ?>">Éditer</a>
-                    <a href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>">Supprimer</a>
+                    <a href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" 
+                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer : <?= htmlspecialchars($userBook->getTitle()) ?> de <?= htmlspecialchars($userBook->getAuthor()) ?>?');">
+                        Supprimer
+                    </a>
                 </td>
             </tr>
         <?php endforeach; ?>

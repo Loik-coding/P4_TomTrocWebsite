@@ -47,5 +47,4 @@ class UserManager extends AbstractEntityManager
 
         return new User($userData);
     }
-
 }
