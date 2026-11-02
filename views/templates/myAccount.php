@@ -5,7 +5,7 @@
         <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
         <a href="index.php?page=UpdateProfilePicture" class="underlined">modifier</a>
         <h2><?= htmlspecialchars($userPseudo) ?></h2>
-        <p>Membre depuis X ans</p>
+        <p>Membre depuis <?= $timeSinceSubscription ?> </p>
         <p>BIBLIOTHEQUE</p>
         <p><?= htmlspecialchars($booksCount) ?> livres</p>
     </div>

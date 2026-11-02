@@ -179,6 +179,8 @@ class UserController
         $userPassword = $user->getPassword();
         //Get user profile picture
         $userProfilePicture = $user->getProfilePicture();
+        //Get user time since subscription
+        $timeSinceSubscription = $user->getTimeSinceSubscription();
 
         //get the number of books owned by the user
         $bookManager = new BookManager();
