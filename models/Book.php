@@ -23,7 +23,7 @@ class Book
         $this->cover = $data['cover'];
         $this->user_id = $data['user_id'];
         $this->userPseudo = $data['pseudo'] ?? null;  
-        $this->userCover = $data['image'] ?? null;     
+        $this->userCover = $data['profile_picture'] ?? null;     
         $this->booksCount = $data['booksCount'] ?? 0;
     }
 

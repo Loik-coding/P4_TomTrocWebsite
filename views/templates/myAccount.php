@@ -1,5 +1,5 @@
-
 <h1>Mon compte</h1>
+
 <div class="layout-row">
     <div class="profile-layout">
         <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
@@ -14,7 +14,15 @@
     </div>
     <div class="profile-layout">
         <h2>Vos informations personnelles</h2>
-        <form action="index.php?page=update" method="POST">
+
+        <?php if (isset($_SESSION['success'])) : ?>
+            <p>
+                <?= htmlspecialchars($_SESSION['success']) ?>
+            </p>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <form action="index.php?page=updateUser" method="POST">
             <div>
                 <label for="pseudo">Pseudo</label>
                 <input type="text" id="pseudo" name="pseudo" value="<?= htmlspecialchars($userPseudo) ?>" required>

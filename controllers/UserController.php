@@ -139,7 +139,7 @@ class UserController
             ];
 
             // On redirige vers l'accueil du site'.
-            header('Location: index.php?page=home');
+            header('Location: index.php?page=myAccount');
             exit;
         }
 
@@ -297,5 +297,53 @@ class UserController
         // Retourner sur le compte utilisateur
         header('Location: index.php?page=myAccount');
         exit;
+    }
+
+    public function updateUser()
+    {
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=home');
+            exit;
+        }
+
+        //Get user id from session
+        $userId = $_SESSION['user']['id'] ?? null;
+
+        //Get user info from database
+        $userManager = new UserManager();
+        $user = $userManager->getUserById($userId);
+        //Get user pseudo
+        $userPseudo = $user->getPseudo();
+        //Get user email
+        $userEmail = $user->getEmail();
+        //Get user password
+        $userPassword = $user->getPassword();
+        //Get user profile picture
+
+        // Vérifier si le formulaire a été soumis
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Récupérer les données individuellement
+            $newPseudo = trim($_POST['pseudo']);
+            $newEmail = trim($_POST['email']);
+            $newPassword = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
+        }
+        if ($newPseudo !== ""){
+            $userPseudo = $newPseudo;
+        }
+        if ($newEmail !== ""){
+            $userEmail = $newEmail;
+        }
+        if ($newPassword !== ""){
+            $userPassword = $newPassword;
+        }
+
+        $user = $userManager->updateUser($userId, $userPseudo, $userEmail, $userPassword);
+        
+        // On prépare un message de confirmation.
+        $_SESSION['success'] = "Votre compte a bien été modifié.";
+
+        header('Location: index.php?page=myAccount');
+        exit;
+
     }
 }

@@ -65,6 +65,11 @@ switch ($page) {
         $controller = new UserController();
         $controller->UpdateProfilePicture();
         break;
+    
+    case 'updateUser' :
+        $controller = new UserController();
+        $controller->updateUser();
+        break;
 
     default:
         echo "Page introuvable.";
