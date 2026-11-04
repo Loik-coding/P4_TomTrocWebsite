@@ -1,0 +1,704 @@
+
+/* ==========================
+   1. VARIABLES ET BASE
+========================== */
+
+:root {
+    --color-background1: #FAF9F7;
+    --color-background2: #F5F3EF;
+    --color-white: #FFFFFF;
+    --color-header: #F5F3EF;
+    --color-primary: #00AC66;
+    --color-primary-dark: #354b3a;
+    --color-secondary: #d9a18f;
+    --color-text: #292929;
+    --color-muted: #777d76;
+    --color-border: #e5e2d9;
+    --color-footer: #FFFFFF;
+
+    --radius: 5px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+
+/* ==========================
+   2. HEADER ET NAVIGATION
+========================== */
+
+header {
+    background-color: var(--color-header);
+    border-bottom: 1px solid var(--color-border);
+    padding: 20px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    color: var(--color-primary);
+    font-family: Georgia, serif;
+    font-size: 30px;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    justify-content: flex-start;
+    gap: 50px;
+}
+
+.nav-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 50px;
+}
+nav a {
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: var(--color-primary);
+}
+
+
+.nav-svg {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--color-text);
+    transition: color 0.2s;
+}
+
+.nav-svg:hover {
+    color: var(--color-primary);
+}
+
+.icon-message {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+
+    background-color: currentColor;
+
+    -webkit-mask: url("../images/logo/message.svg") no-repeat center;
+    mask: url("../images/logo/message.svg") no-repeat center;
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.icon-account {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+
+    background-color: currentColor;
+
+    -webkit-mask: url("../images/logo/account.svg") no-repeat center;
+    mask: url("../images/logo/account.svg") no-repeat center;
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+/* ==========================
+   3. CONTENU PRINCIPAL
+========================== */
+
+main {
+    background-color : var(--color-background1);
+    width: 100%;    
+    min-height: 75vh;
+    margin:  auto;
+}
+
+h1,
+h2 {
+    font-family: Georgia, serif;
+    font-weight: normal;
+}
+
+main > h1 {
+    font-size: 36px;
+    margin-bottom: 35px;
+    margin-left : 20%;
+}
+
+p {
+    font-size: 14px;
+}
+
+.horizontal_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 24px 20%;
+}
+
+.horizontal_container > div {
+    flex: 1;
+}
+
+.horizontal_container img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+}
+
+.horizontal_container_home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    padding: 5% 20%;
+    background-color: var(--color-background2);
+}
+
+.horizontal_container_home > div {
+    flex: 1;
+}
+
+.horizontal_container_home img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+}
+
+.login-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 50px;
+}
+
+.login-form h1,
+.login-form form,
+.login-form p {
+    width: 100%;
+    max-width: 400px;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+}
+
+.login-form h1 {
+    margin-bottom: 30px;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    gap: 10px;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.login-form input {
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.login-form p {
+    margin-top: 20px;
+}
+
+
+
+
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: white;
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 12px 28px;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    transition: all 0.3s ease;
+    margin: 24px 0px;
+}
+
+.cta-button:hover {
+    background-color: white;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.cta-button-inverted {
+    display: inline-block;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 12px 28px;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    transition: all 0.3s ease;
+    margin: 24px 0px;
+}
+
+.cta-button-inverted:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.centered_container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+}
+
+.centered_container h2 {
+    text-align: center;
+}
+
+.centered_container > .cta-button {
+    align-self: center;
+}
+
+.centered_container:nth-of-type(even) {
+    background-color: var(--color-background1);
+}
+
+.centered_container:nth-of-type(odd) {
+    background-color: var(--color-background2);
+}
+
+.full-width-image {
+    width: 100vw;
+    max-width: none;
+    height: auto;
+    display: block;
+    margin-left: calc(50% - 50vw);
+}
+
+.profile-picture {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+
+/* ==========================
+   4. LISTE DES LIVRES
+========================== */
+
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 20px 20%;
+}
+
+.book-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.book-card h2 {
+    font-size: 21px;
+    margin: 16px 16px 24px;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.book-card p {
+    color: var(--color-muted);
+    font-size: 14px;
+    margin: 4px 12px
+}
+
+.book-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: #f1efe9;
+    border-radius: 5px;
+}
+
+.book-card a {
+    margin-top: auto;
+    padding-top: 12px;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.book-details {
+    display: flex;
+    width: 100%;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.book-cover {
+    width: 50%;
+    height: 100vh;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 90%;
+    display: block;
+}
+
+.book-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding : 50px 350px 0px 0px;
+    height: 95vh;
+}
+
+.book-info h1 {
+    margin-top: 0;
+}
+
+.book-info h2 {
+    color: var(--color-muted);
+    font-size: 16px;
+}
+
+.book-info span {
+    font-size: 8px;
+    margin-top: 20px;
+}
+
+.book-info a {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+}
+
+.owner-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.owner-info img {
+    width : 48px;
+    height : 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.howtodo {
+    margin: 0px 16px;
+    background-color: var(--color-white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+/* ==========================
+   5. FORMULAIRES
+========================== */
+
+form {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 35px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.searchbar {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: var(--color-white);
+    height: 50px;
+    padding: 0 10px;
+    max-width: 322px;
+}
+
+.searchbar input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    height: 100%;
+    background: transparent;
+    font-size: 14px;
+}
+
+.searchbar input:focus {
+    outline: none;
+
+}
+
+.searchbar button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.searchbar button:hover {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.searchbar button img {
+    width: 20px;
+    height: 20px;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+input:focus {
+    outline: 2px solid var(--color-primary);
+    border-color: transparent;
+}
+
+button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 22px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Tableau des livres */
+.books-array {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    text-align: left;
+    background-color: var(--color-white);
+}
+
+/* En-tête */
+.books-array th {
+    padding: 15px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 12px;
+}
+
+/* Cellules */
+.books-array td {
+    padding: 15px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+/* Photos des livres */
+.books-array td img {
+    width: 65px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    display: block;
+}
+
+/* Description */
+.books-array td:nth-child(4) {
+    max-width: 250px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+/* Actions */
+.books-array .actions {
+    white-space: nowrap;
+}
+
+.books-array .actions a {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+    margin-right: 10px;
+}
+
+/* Survol des lignes */
+.books-array tbody tr:hover {
+    background-color: var(--color-background2);
+}
+/* ==========================
+   6. MESSAGES
+========================== */
+
+.errors {
+    max-width: 480px;
+    margin: 20px auto;
+    padding: 15px;
+    color: #9b3939;
+    background-color: #f9e9e7;
+    border-radius: 6px;
+}
+
+.success {
+    color: var(--color-primary-dark);
+    background-color: #e6eee5;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+
+/* ==========================
+   7. FOOTER
+========================== */
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 40px;
+
+    background-color: var(--color-white);
+    color: var(--color-text);
+    padding: 12px 5%;
+    text-align: center;
+    font-size: 12px;
+}
+
+
+/* ==========================
+   8. RESPONSIVE MOBILE
+========================== */
+
+@media screen and (max-width: 650px) {
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    main {
+        width: 90%;
+        margin: 30px auto;
+    }
+
+    main > h1 {
+        font-size: 29px;
+    }
+
+    form {
+        padding: 22px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .books-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .books-list {
+        grid-template-columns: 1fr;
+    }
+}
