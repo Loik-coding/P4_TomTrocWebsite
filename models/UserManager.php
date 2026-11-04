@@ -47,4 +47,14 @@ class UserManager extends AbstractEntityManager
 
         return new User($userData);
     }
+
+    public function updateProfilePicture(int $userId, string $profilePicturePath): bool
+    {
+        $sql = "UPDATE users SET profile_picture = :profile_picture WHERE id = :id";
+        $query = $this->db->prepare($sql);
+        return $query-> execute([
+            'profile_picture' => $profilePicturePath,
+            'id' => $userId
+        ]);
+    }
 }

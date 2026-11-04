@@ -46,19 +46,24 @@ switch ($page) {
         $controller->loginForm();
         break;
       
-        case 'logout' :
+    case 'logout' :
         $controller = new UserController();
         $controller->logout();
         break;
       
-        case 'myAccount' :
+    case 'myAccount' :
         $controller = new UserController();
         $controller->myAccount();
         break;    
         
-        case 'deleteBook' :
+    case 'deleteBook' :
         $controller = new UserController();
         $controller->deleteBookById();
+        break;
+
+    case 'UpdateProfilePicture' :
+        $controller = new UserController();
+        $controller->UpdateProfilePicture();
         break;
 
     default:

@@ -15,7 +15,7 @@ class user
         $this->pseudo = $data['pseudo'];
         $this->email = $data['email'];
         $this->password = $data['password'];
-        $this->profilePicture = $data['image'];
+        $this->profilePicture = $data['profile_picture'];
         $this->register_date = $data['register_date'];
     }
 

@@ -239,8 +239,21 @@ p {
     margin-top: 20px;
 }
 
+input[type="file"] {
+    display: none;
+}
 
+.link-form {
+    border : none;
+    background-color : transparent;
+    margin : 0px;
+}
 
+.link-form :hover{
+    cursor: pointer;
+    color: var(--color-primary);
+    text-decoration: underline;
+}
 
 
 .cta-button {

@@ -3,7 +3,10 @@
 <div class="horizontal-container">
     <div>
         <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
-        <a href="index.php?page=UpdateProfilePicture" class="underlined">modifier</a>
+        <form class="link-form" action="index.php?page=UpdateProfilePicture" method="POST" enctype="multipart/form-data">
+            <label for="profilePicture">Modifier</label>
+            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required onchange="this.form.submit()">
+        </form>
         <h2><?= htmlspecialchars($userPseudo) ?></h2>
         <p>Membre depuis <?= $timeSinceSubscription ?> </p>
         <p>BIBLIOTHEQUE</p>
