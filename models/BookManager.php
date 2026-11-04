@@ -26,7 +26,7 @@ class BookManager extends AbstractEntityManager
     public function getBookById(int $id): ?Book
     {
         //on prépare la requete SQL
-        $sql = "SELECT books.*, users.pseudo, users.image FROM books INNER JOIN users ON books.user_id = users.id WHERE books.id = :id";
+        $sql = "SELECT books.*, users.pseudo, users.profile_picture FROM books INNER JOIN users ON books.user_id = users.id WHERE books.id = :id";
         $query = $this->db->prepare($sql);
 
         //on associe la valeur de $id au paramètre :id

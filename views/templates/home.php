@@ -1,5 +1,5 @@
 <!-- Section Découvrir  -->
-<div class="horizontal_container_home">
+<div class="layout-row layout-row--home">
     <div>
         <h2>Rejoignez nos lecteurs passionés</h2>
         <p>Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture. 
@@ -12,7 +12,7 @@
 </div>
 
 <!-- Section les derniers livres ajoutés-->
-<div class="centered_container">
+<div class="centered-container">
     <h2>Les derniers livres ajoutés</h2>
     <div class="book-list">
         <?php foreach ($last4Books as $book) : ?>
@@ -30,7 +30,7 @@
 </div>
 
 <!-- Section comment ça marche-->
-<div class="centered_container" style>
+<div class="centered-container">
     <h2>Comment ça marche ?</h2>
     <p>Échanger des livres avec TomTroc c’est simple et amusant ! Suivez ces étapes pour commencer :</p>
     <div class="book-list">
@@ -53,13 +53,15 @@
 <img src="images/home/image_home2.png" alt="Une bibliothèque" class="full-width-image">
 
 <!-- Section Nos valeurs-->
-<div class="centered_container">
+<div class="centered-container-values">
     <h2>Nos Valeurs</h2>
     <p>
         Chez Tom Troc, nous mettons l'accent sur le partage, la découverte et la communauté. 
         Nos valeurs sont ancrées dans notre passion pour les livres et notre désir de créer des liens entre les lecteurs. 
         Nous croyons en la puissance des histoires pour rassembler les gens et inspirer des conversations enrichissantes.
+        <br><br>
         Notre association a été fondée avec une conviction profonde : chaque livre mérite d'être lu et partagé. 
+        <br><br>
         Nous sommes passionnés par la création d'une plateforme conviviale qui permet aux lecteurs de se connecter, 
         de partager leurs découvertes littéraires et d'échanger des livres qui attendent patiemment sur les étagères.
     </p>

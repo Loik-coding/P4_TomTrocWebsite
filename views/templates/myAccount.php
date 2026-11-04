@@ -1,7 +1,7 @@
 
 <h1>Mon compte</h1>
-<div class="horizontal-container">
-    <div>
+<div class="layout-row">
+    <div class="profile-layout">
         <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
         <form class="link-form" action="index.php?page=UpdateProfilePicture" method="POST" enctype="multipart/form-data">
             <label for="profilePicture">Modifier</label>
@@ -12,7 +12,7 @@
         <p>BIBLIOTHEQUE</p>
         <p><?= htmlspecialchars($booksCount) ?> livres</p>
     </div>
-    <div>
+    <div class="profile-layout">
         <h2>Vos informations personnelles</h2>
         <form action="index.php?page=update" method="POST">
             <div>
@@ -31,38 +31,44 @@
         </form>
     </div>
 </div>
-<table class="books-array">
-    <thead>
-        <tr>
-            <th>PHOTO</th>
-            <th>TITRE</th>
-            <th>AUTEUR</th>
-            <th>DESCRIPTION</th>
-            <th>DISPONIBILITÉ</th>
-            <th>ACTION</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($userBooks as $userBook) : ?>
+<div class="layout-row">
+    <table class="books-array">
+        <thead>
             <tr>
-                <td>
-                    <img src="<?= htmlspecialchars($userBook->getCover()) ?>"
-                         alt="Couverture de <?= htmlspecialchars($userBook->getTitle()) ?>">
-                </td>
-                <td><?= htmlspecialchars($userBook->getTitle()) ?></td>
-                <td><?= htmlspecialchars($userBook->getAuthor()) ?></td>
-                <td><?= htmlspecialchars($userBook->getDescription()) ?></td>
-                <td>
-                    <?= $userBook->getAvailability() ? 'Disponible' : 'Indisponible' ?>
-                </td>
-                <td class="actions">
-                    <a href="index.php?page=updateBook&id=<?= $userBook->getId() ?>">Éditer</a>
-                    <a href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" 
-                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer : <?= htmlspecialchars($userBook->getTitle()) ?> de <?= htmlspecialchars($userBook->getAuthor()) ?>?');">
-                        Supprimer
-                    </a>
-                </td>
+                <th>PHOTO</th>
+                <th>TITRE</th>
+                <th>AUTEUR</th>
+                <th>DESCRIPTION</th>
+                <th>DISPONIBILITÉ</th>
+                <th>ACTION</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($userBooks as $userBook) : ?>
+                <tr>
+                    <td>
+                        <img src="<?= htmlspecialchars($userBook->getCover()) ?>"
+                            alt="Couverture de <?= htmlspecialchars($userBook->getTitle()) ?>">
+                    </td>
+                    <td><?= htmlspecialchars($userBook->getTitle()) ?></td>
+                    <td><?= htmlspecialchars($userBook->getAuthor()) ?></td>
+                    <td>
+                        <span class="book-description">
+                            <?= htmlspecialchars($userBook->getDescription()) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <?= $userBook->getAvailability() ? 'Disponible' : 'Indisponible' ?>
+                    </td>
+                    <td class="actions">
+                        <a href="index.php?page=updateBook&id=<?= $userBook->getId() ?>">Éditer</a>
+                        <a href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" 
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer : <?= htmlspecialchars($userBook->getTitle()) ?> de <?= htmlspecialchars($userBook->getAuthor()) ?>?');">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

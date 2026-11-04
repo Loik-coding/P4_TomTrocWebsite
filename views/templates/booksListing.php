@@ -1,8 +1,8 @@
-<div class="horizontal_container">
+<div class="layout-row layout-row--books-listing">
     <div>
         <h1>Nos livres à l'échange</h1>
     </div>
-    <div>
+    <div class="align-right">
         <form class="searchbar" action="index.php" method="GET" role="search">
             <input type="hidden" name="page" value="booksListing">
             <button type="submit"><img src="images/logo/logo-loupe.svg" alt=""></button>
