@@ -145,4 +145,23 @@ class BookController
         header('Location: index.php?page=bookModifier&id=' . $bookId);
         exit;
     }
+
+    public function updateBook()
+    {
+        $bookId = Utils::request("id", -1);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Récupérer les données individuellement
+            $title = trim($_POST['title']);
+            $author = trim($_POST['author']);
+            $description = trim($_POST['description']);
+            $availability = trim($_POST['availability']);         
+        }
+
+        $bookManager = new BookManager();
+        $bookManager->updateBook($bookId,$title,$author,$description,$availability);
+        
+        header('Location: index.php?page=bookModifier&id=' . $bookId);
+        exit;
+
+    }
 }

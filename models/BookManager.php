@@ -137,4 +137,16 @@ class BookManager extends AbstractEntityManager
         ]);
     }
 
+    public function updateBook(int $bookId, string $title, string $author, string $description, bool $availability): bool
+    {
+        $sql = "UPDATE books SET title = :title, author = :author, description = :description, availability = :availability WHERE id = :id";
+        $query = $this->db->prepare($sql);
+        return $query-> execute([
+            'title' => $title,
+            'author' => $author,
+            'description' => $description,
+            'availability' => $availability,
+            'id' => $bookId
+        ]);
+    }
 }

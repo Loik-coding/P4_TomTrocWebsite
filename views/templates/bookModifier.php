@@ -25,9 +25,9 @@
             </div>
             <div>
                 <label for="availability">Disponibilité</label>
-                <select id="availability" name="availability" value="<?= htmlspecialchars($availability) ?>">
-                    <option value="true">Disponible</option>
-                    <option value="false">Indisponible</option>
+                <select id="availability" name="availability">
+                    <option value="1" <?= $book->getAvailability() == 1 ? 'selected' : '' ?>>Disponible</option>
+                    <option value="0" <?= $book->getAvailability() == 0 ? 'selected' : '' ?>>Indisponible</option>
                 </select>
             </div>     
             <button type="submit">Publier</button>
