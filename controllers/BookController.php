@@ -71,4 +71,78 @@ class BookController
 
         header('Location: index.php?page=myAccount');
     }
+
+    public function updateBookCover()
+    {
+        $bookId = Utils::request("id", -1);
+
+        // Vérifier que l'utilisateur est connecté
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        // Vérifier que le fichier a bien été envoyé
+        if (!isset($_FILES['cover']) ||
+            $_FILES['cover']['error'] !== UPLOAD_ERR_OK) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        $file = $_FILES['cover'];
+
+        // Vérifier la taille : maximum 3 Mo
+        $maxSize = 3 * 1024 * 1024;
+
+        if ($file['size'] > $maxSize) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        // Vérifier le véritable type MIME du fichier
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->file($file['tmp_name']);
+
+        $allowedTypes = [
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp'
+        ];
+
+        if (!array_key_exists($mimeType, $allowedTypes)) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        // Vérifier qu'il s'agit bien d'une image
+        if (getimagesize($file['tmp_name']) === false) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        // Créer un nom de fichier unique
+        $extension = $allowedTypes[$mimeType];
+
+        $fileName = 'profile_' . $bookId . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
+
+        // Définir le dossier de destination
+        $uploadDirectory = dirname(__DIR__) . '/images/books/';
+
+        // Déplacer le fichier dans le dossier
+        if (!move_uploaded_file($file['tmp_name'], $uploadDirectory . $fileName)) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        // Chemin à enregistrer dans la BDD
+        $coverPath = 'images/books/' . $fileName;
+
+        // Mettre à jour la photo dans la BDD
+        $bookManager = new BookManager();
+        $bookManager->updateBookCover($bookId, $coverPath);
+
+        // Retourner sur le compte utilisateur
+        header('Location: index.php?page=bookModifier&id=' . $bookId);
+        exit;
+    }
 }

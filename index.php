@@ -91,6 +91,11 @@ switch ($page) {
         $controller->bookModifier();
         break;
 
+    case 'updateBookCover' :
+        $controller = new BookController();
+        $controller->updateBookCover();
+        break;
+
     default:
         echo "Page introuvable.";
         break;

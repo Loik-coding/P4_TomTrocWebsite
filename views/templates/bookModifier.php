@@ -3,14 +3,14 @@
 <div class="layout-row">
     <div class="update-book">
         <img src="<?= htmlspecialchars($cover) ?>" alt="Photo de couverture de <?= htmlspecialchars($title) ?>">
-        <form class="update-book-link" action="index.php?page=updateBookCover" method="POST">
+        <form class="update-book-link" action="index.php?page=updateBookCover&id=<?= $book->getId() ?>" method="POST" enctype="multipart/form-data">
             <label for="cover">Modifier la photo</label>
             <input type="file" id="cover" name="cover" accept="image/*" value= "" required onchange="this.form.submit()">
         </form>
     </div>
 
     <div class="create-book">
-        <form action="index.php?page=updateBook" method="POST">
+        <form action="index.php?page=updateBook&id=<?= $book->getId() ?>" method="POST">
             <div>
                 <label for="title">Titre</label>
                 <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required>

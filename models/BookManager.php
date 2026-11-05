@@ -127,4 +127,14 @@ class BookManager extends AbstractEntityManager
             ]);
     }
 
+    public function updateBookCover(int $bookId, string $coverPath): bool
+    {
+        $sql = "UPDATE books SET cover = :cover WHERE id = :id";
+        $query = $this->db->prepare($sql);
+        return $query-> execute([
+            'cover' => $coverPath,
+            'id' => $bookId
+        ]);
+    }
+
 }
