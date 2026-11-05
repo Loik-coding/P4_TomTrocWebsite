@@ -1,3 +1,8 @@
+<div class="fil-ariane">
+    <a href="index.php?page=myAccount">← retour</a>
+</div>
+
+
 <h1>Modifier les informations</h1>
 
 <div class="layout-row">

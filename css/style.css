@@ -103,6 +103,17 @@ nav a:hover, .nav-svg:hover { color: var(--color-primary); }
     mask-image: url("../images/logo/account.svg");
 }
 
+.fil-ariane {
+    margin-left: 20%;
+    margin-top: 24px;
+    color: var(--color-muted);
+}
+
+.fil-ariane:hover {
+    color: var(--color-primary);
+}
+
+
 /* =========================
    3. CONTENU ET LAYOUTS
 ========================= */
