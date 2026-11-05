@@ -68,9 +68,7 @@ class BookController
 
         $bookManager = new BookManager();
         $book = $bookManager->createBook($title, $author, $description, $availability, $userId);
-        
+
         header('Location: index.php?page=myAccount');
-
-
     }
 }
