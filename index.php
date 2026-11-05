@@ -101,9 +101,14 @@ switch ($page) {
         $controller->updateBook();
         break;
 
-    case 'messenger' :
-        $controller = new MessengerController();
-        $controller->messenger();
+    case 'showMessenger' :
+        $controller = new MessageController();
+        $controller->showMessenger();
+        break;
+
+    case 'sendMessage' :
+        $controller = new MessageController();
+        $controller->sendMessage();
         break;
 
     default:
