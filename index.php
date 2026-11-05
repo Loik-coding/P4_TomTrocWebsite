@@ -86,6 +86,11 @@ switch ($page) {
         $controller->createBook();
         break;
 
+    case 'bookModifier' :
+        $controller = new UserController();
+        $controller->bookModifier();
+        break;
+
     default:
         echo "Page introuvable.";
         break;

@@ -400,6 +400,22 @@ class UserController
 
         // On affiche le template principal.
         require TEMPLATE_VIEW_PATH . 'main.php';
+    }
+
+    public function bookModifier()
+    {
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=home');
+            exit;
+        }
+
+        //on charge la vue avec les données
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'bookModifier.php';
+        $content = ob_get_clean();
+
+        // On affiche le template principal.
+        require TEMPLATE_VIEW_PATH . 'main.php';
 
     }
 }
