@@ -409,6 +409,22 @@ class UserController
             exit;
         }
 
+        $bookId = Utils::request("id", -1);
+
+        $bookManager = new BookManager;
+        $book = $bookManager->getBookById($bookId);
+
+        //Get book title
+        $title = $book->getTitle();
+        //Get book author
+        $author = $book->getAuthor();
+        //Get book descrption
+        $description = $book->getDescription();
+        //Get book availability
+        $availability = $book->getAvailability();
+        //Get book cover
+        $cover = $book->getCover();
+
         //on charge la vue avec les données
         ob_start();
         require TEMPLATE_VIEW_PATH . 'bookModifier.php';
