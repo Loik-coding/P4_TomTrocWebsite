@@ -101,6 +101,11 @@ switch ($page) {
         $controller->updateBook();
         break;
 
+    case 'messenger' :
+        $controller = new MessengerController();
+        $controller->messenger();
+        break;
+
     default:
         echo "Page introuvable.";
         break;
