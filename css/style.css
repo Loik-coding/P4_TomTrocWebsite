@@ -145,6 +145,33 @@ main > h1 {
     padding: 24px 20%;
 }
 
+.layout-row--userProfile {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    padding: 24px 5%;
+}
+
+.layout-row--userProfile .profile-layout {
+    margin: 0;
+}
+
+.layout-row--userProfile .profile-layout:first-child {
+    height: 508px;
+}
+
+.layout-row--userProfile .profile-layout:last-child {
+    flex: 1;
+    height: auto;
+    min-width: 0;
+    display: block;
+}
+
+.layout-row--userProfile .books-array {
+    width: 100%;
+    margin: 0;
+}
+
 .login-form {
     display: flex;
     flex: 1;
@@ -501,6 +528,7 @@ button:hover { background: var(--color-primary-dark); }
     border-collapse: collapse;
     background: var(--color-white);
     text-align: left;
+    margin-top: 0;
 }
 
 .books-array th, .books-array td {
@@ -534,6 +562,16 @@ button:hover { background: var(--color-primary-dark); }
     margin : 0 20px;
     color: var(--color-primary-dark);
     text-decoration: underline;
+}
+
+.books-array tbody tr {
+    position: relative;
+}
+
+.books-array tbody tr .book-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
 }
 
 .books-array tbody tr:hover { background: var(--color-background2); }
