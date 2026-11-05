@@ -1,30 +1,39 @@
-<div>
-    <h1>Messagerie</h1>
-    <?php foreach ($messages as $message) : ?>
-        <div class="row">
-            <img src="<?= htmlspecialchars($message->getUserFromProfilPicture()) ?>">
-            <div class="column">
-                <div class="row">
-                    <p><?=htmlspecialchars($message->getUserFromPseudo())?></p>
-                    <p>heure</p>
-                </div>
-                <p>début du message...</p>
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
 
-<div>
-    <div>
-        <img src="<?= htmlspecialchars($message->getUserFromProfilPicture()) ?>">
-        <p><?=htmlspecialchars($message->getUserFromPseudo())?></p>
-    </div>
-    <?php foreach ($messages as $message) : ?>
-        <p><?=htmlspecialchars($message->getUserFromPseudo())?></p>
-    <?php endforeach; ?>
-    <form action="index.php?page=sendMessage" method="POST">
-        <label for="message" hidden></label>
-        <input type="text" id="message" name="message" placeholder="Tapez votre message ici" required>
-        <button type="submit">Envoyer</button>
-    </form>
-</div>
+
+<section class="messaging">
+
+    <h1>Messagerie</h1>
+
+    <?php if (empty($messages)) : ?>
+
+        <p>Vous n'avez pas encore de conversation.</p>
+
+    <?php else : ?>
+
+        <div class="messaging-list">
+
+            <?php foreach ($messages as $message) : ?>
+
+                <article class="messaging-card">
+
+                    <div class="messaging-contact">
+                        Contact #<?= htmlspecialchars($message['contact_id']) ?>
+                    </div>
+
+                    <div class="messaging-content">
+                        <?= htmlspecialchars($message['content']) ?>
+                    </div>
+
+                    <div class="messaging-date">
+                        <?= date('d/m/Y à H:i', strtotime($message['date'])) ?>
+                    </div>
+
+                </article>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+</section>

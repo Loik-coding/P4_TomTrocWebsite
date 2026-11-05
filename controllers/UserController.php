@@ -2,13 +2,37 @@
 
 class UserController
 {
-    
+
+//-------------------------------------------------------------------------------//
+//    01 - CONTROLE DES CONNEXIONS                                               //
+//-------------------------------------------------------------------------------//
+
+    // Vérifie si l'utilisateur EST connecté si non, redirige vers la page de connexion.
+    private function redirectIfConnected(string $redirect) : void
+    {
+        if (isset($_SESSION['user'])) {
+            Utils::redirect($redirect);
+        }
+    }
+
+    // Vérifie si l'utilisateur N'EST PAS connecté.
+    private function redirectIfNotConnected() : void
+    {
+        if (!isset($_SESSION['user'])) {
+            Utils::redirect("login");
+        }
+    }
+
+
+//-------------------------------------------------------------------------------//
+//    02 - AFFICHAGE DES PAGES                                                   //
+//-------------------------------------------------------------------------------//
+
+    // Affiche la page de connection SSI le user n'est pas déjà connecté.
     public function login()
     {
-        if (Utils::isUserConnected()) {
-            header('Location: index.php?page=booksListing');
-            exit;
-        }
+        $redirect = "home";
+        $this->redirectIfConnected($redirect);
 
         ob_start();
         require TEMPLATE_VIEW_PATH . 'login.php';
@@ -17,12 +41,11 @@ class UserController
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
+    // Affiche la page d'inscription SSI le user n'est pas déjà connecté.
     public function register()
     {
-        if (Utils::isUserConnected()) {
-            header('Location: index.php?page=booksListing');
-            exit;
-        }
+        $redirect = "home";
+        $this->redirectIfConnected($redirect);
 
         ob_start();
         require TEMPLATE_VIEW_PATH . 'register.php';
@@ -31,13 +54,42 @@ class UserController
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
+    // Récupère les informations de l'utilisateur connecté et affiche la page mon Compte.
+    public function myAccount()
+    {
+        // Redirige un utilisateur non connecté sur la page login.
+        $this->redirectIfNotConnected();
+
+        // Récupère l'id de l'utilisateur connecté
+        $userId = $_SESSION['user']['id'] ?? null;
+
+        // Récupère les infos de l'utilisateur par son id sous forme d'objet.
+        $userManager = new UserManager();
+        $user = $userManager->getUserById($userId);
+
+        // Récupère le nombre de livres mis en ligne par l'utilisateur dans la variable $booksCount.
+        $bookManager = new BookManager();
+        $booksCount = $bookManager->getBooksCountByUserId($userId);
+
+        // Récupère la liste des livres de l'utilisateur.
+        $userBooks = $bookManager->getBooksByUserId($userId);
+
+        // Charge la page.
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'myAccount.php';
+        $content = ob_get_clean();
+        require TEMPLATE_VIEW_PATH . 'main.php';
+    }
+
+//-------------------------------------------------------------------------------//
+//    03 - CREATION DE COMPTE & CONNEXION/DECONNEXION                            //
+//-------------------------------------------------------------------------------//
+
     public function registerForm()
     {
         // On empêche un utilisateur connecté de créer un autre compte.
-        if (Utils::isUserConnected()) {
-            header('Location: index.php?page=booksListing');
-            exit;
-        }
+        $redirect = "myAccount";
+        $this->redirectIfConnected($redirect);
 
         // On récupère les données du formulaire.
         $pseudo = trim($_POST['pseudo'] ?? '');
@@ -97,10 +149,8 @@ class UserController
     public function loginForm()
     {
         // On empêche un utilisateur connecté de créer un autre compte.
-        if (Utils::isUserConnected()) {
-            header('Location: index.php?page=booksListing');
-            exit;
-        }
+        $redirect = "myAccount";
+        $this->redirectIfConnected($redirect);
 
         // On récupère les données du formulaire.
         $email = trim($_POST['email'] ?? '');
@@ -151,88 +201,24 @@ class UserController
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
+
+    // Déconnecte l'utilisateur et redirige vers la page d'accueil
     public function logout()
     {
         $_SESSION = [];
         session_destroy();
-        header('location: index.php?page=booksListing');
+        header('location: index.php?page=home');
         exit;
     }
 
-    public function myAccount()
-    {
-        if (!Utils::isUserConnected()) {
-            header('Location: index.php?page=home');
-            exit;
-        }
-        //Get user id from session
-        $userId = $_SESSION['user']['id'] ?? null;
-        //Get user info from database
-        $userManager = new UserManager();
-        $user = $userManager->getUserById($userId);
 
-        //Get user pseudo
-        $userPseudo = $user->getPseudo();
-        //Get user email
-        $userEmail = $user->getEmail();
-        //Get user password
-        $userPassword = $user->getPassword();
-        //Get user profile picture
-        $userProfilePicture = $user->getProfilePicture();
-        //Get user time since subscription
-        $timeSinceSubscription = $user->getTimeSinceSubscription();
 
-        //get the number of books owned by the user
-        $bookManager = new BookManager();
-        $booksCount = $bookManager->getBooksCountByUserId($userId);
-
-        //Get books owned by the user
-        $userBooks = $bookManager->getBooksByUserId($userId);
-
-        ob_start();
-        require TEMPLATE_VIEW_PATH . 'myAccount.php';
-        $content = ob_get_clean();
-
-        require TEMPLATE_VIEW_PATH . 'main.php';
-    }
-
-    public function deleteBookById()
-    {
-        if (!Utils::isUserConnected()) {
-            header('Location: index.php?page=home');
-            exit;
-        }
-
-        $bookId = Utils::request("id", -1);
-
-        $bookManager = new BookManager();
-        $book = $bookManager->getBookById($bookId);
-
-        if ($book === null) {
-            echo "Livre introuvable.";
-            return;
-        }
-
-        $userId = $_SESSION['user']['id'] ?? null;
-        if ($book->getUserId() !== $userId) {
-            echo "Vous n'avez pas la permission de supprimer ce livre.";
-            return;
-        }
-
-        $bookManager->deleteBookById($bookId);
-
-        header('Location: index.php?page=myAccount');
-        exit;
-    }
 
 
     public function updateProfilePicture()
     {
-        // Vérifier que l'utilisateur est connecté
-        if (!Utils::isUserConnected()) {
-            header('Location: index.php?page=home');
-            exit;
-        }
+        // Redirige un utilisateur non connecté sur la page login
+        $this->redirectIfNotConnected();
 
         // Vérifier que le fichier a bien été envoyé
         if (!isset($_FILES['profilePicture']) ||

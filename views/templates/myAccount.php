@@ -5,13 +5,13 @@
 
 <div class="layout-row">
     <div class="profile-layout">
-        <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
+        <img class="profile-picture"src="<?= htmlspecialchars($user->getProfilePicture()) ?>" alt="Photo de profil de <?= htmlspecialchars($user->getPseudo()) ?>">
         <form class="link-form" action="index.php?page=UpdateProfilePicture" method="POST" enctype="multipart/form-data">
             <label for="profilePicture">Modifier</label>
             <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required onchange="this.form.submit()">
         </form>
-        <h2><?= htmlspecialchars($userPseudo) ?></h2>
-        <p>Membre depuis <?= $timeSinceSubscription ?> </p>
+        <h2><?= htmlspecialchars($user->getPseudo()) ?></h2>
+        <p>Membre depuis <?= htmlspecialchars($user->getTimeSinceSubscription()) ?> </p>
         <p>BIBLIOTHEQUE</p>
         <p><?= htmlspecialchars($booksCount) ?> livres</p>
     </div>
@@ -28,15 +28,15 @@
         <form action="index.php?page=updateUser" method="POST">
             <div>
                 <label for="pseudo">Pseudo</label>
-                <input type="text" id="pseudo" name="pseudo" value="<?= htmlspecialchars($userPseudo) ?>" required>
+                <input type="text" id="pseudo" name="pseudo" value="<?= htmlspecialchars($user->getPseudo()) ?>" required>
             </div>
             <div>
                 <label for="email">Adresse email</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($userEmail) ?>" required>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user->getEmail()) ?>" required>
             </div>
             <div>
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" value="<?= htmlspecialchars($userPassword) ?>" required>         
+                <input type="password" id="password" name="password" value="<?= htmlspecialchars($user->getPassword()) ?>" required>         
             </div>
             <button type="submit">Enregistrer</button>
         </form>

@@ -4,7 +4,7 @@
 <h1>Publier un nouveau livre</h1>
 
 <div class="create-book">
-    <form action="index.php?page=createBook" method="POST">
+    <form action="index.php?page=createBook" method="POST" enctype="multipart/form-data">
         <div>
             <label for="title">Titre</label>
             <input type="text" id="title" name="title" required>
@@ -20,13 +20,13 @@
         <div>
             <label for="availability">Disponibilité</label>
             <select id="availability" name="availability">
-                <option value="true">Disponible</option>
-                <option value="false">Indisponible</option>
+                <option value="1">Disponible</option>
+                <option value="0">Indisponible</option>
             </select>
         </div>     
         <div>
             <label for="cover">Choisir une photo de couverture</label>
-            <input type="file" id="cover" name="cover" accept="image/*" required onchange="this.form.submit()">
+            <input type="file" id="cover" name="cover" accept="image/*">
         </div>    
         <button type="submit">Publier</button>
     </form>

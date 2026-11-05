@@ -21,5 +21,31 @@ class MessageManager extends AbstractEntityManager
         return new Message($messageData);
     }
 
+    public function getLastMessagesByContact(int $userId): array
+    {
+        // On prépare la requête SQL.
+        $sql = "SELECT * FROM messenger WHERE from_user_id = :userId OR to_user_id = :userId ORDER BY date DESC";
+        $query = $this->db->prepare($sql);
+        $query->execute(['userId' => $userId]);
+
+        $messages = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $contacts = [];
+
+        foreach ($messages as $message) {
+
+            if ($message['from_user_id'] == $userId) {
+                $contactId = $message['to_user_id'];
+            } else {
+                $contactId = $message['from_user_id'];
+            }
+
+            if (!isset($contacts[$contactId])) {
+                $contacts[$contactId] = $message;
+            }
+        }
+
+        return $contacts;
+    }
 
 }

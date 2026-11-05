@@ -28,4 +28,16 @@ class Utils {
     {
         return isset($_SESSION['user']);
     }
+
+    public static function redirect(string $action, array $params = []) : void
+    {
+        $url = "index.php?page=$action";
+        foreach ($params as $paramName => $paramValue) {
+            $url .= "&$paramName=$paramValue";
+        }
+        header("Location: $url");
+        exit();
+    }
+
+
 }
