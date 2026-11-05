@@ -75,6 +75,16 @@ switch ($page) {
         $controller = new UserController();
         $controller->userProfile();
         break;
+    
+    case 'bookPost' :
+        $controller = new UserController();
+        $controller->bookPost();
+        break;
+    
+    case 'createBook' :
+        $controller = new BookController();
+        $controller->createBook();
+        break;
 
     default:
         echo "Page introuvable.";

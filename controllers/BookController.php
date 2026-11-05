@@ -47,4 +47,27 @@ class BookController
         // On affiche le template principal.
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
+
+    public function createBook(string $title, string $author, string $description, bool $availability, string $cover, int $userId)
+    {
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=home');
+            exit;
+        }
+        //Get user id from session
+        $userId = $_SESSION['user']['id'] ?? null;
+        // Vérifier si le formulaire a été soumis
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Récupérer les données individuellement
+            $title = trim($_POST['title']);
+            $author = trim($_POST['author']);
+            $description = trim($_POST['description']);
+            $availability = trim($_POST['availability']);
+            $cover = trim($_POST['cover']);            
+        }
+
+        $bookManager = new BookManager();
+        $book = $bookManager->createBook($title, $author, $description, $availability, $cover, $userId);
+
+    }
 }

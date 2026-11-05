@@ -385,4 +385,21 @@ class UserController
         // On affiche le template principal.
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
+
+    public function bookPost()
+    {
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=home');
+            exit;
+        }
+
+        //on charge la vue avec les données
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'bookPost.php';
+        $content = ob_get_clean();
+
+        // On affiche le template principal.
+        require TEMPLATE_VIEW_PATH . 'main.php';
+
+    }
 }

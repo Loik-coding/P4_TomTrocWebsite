@@ -113,4 +113,19 @@ class BookManager extends AbstractEntityManager
         return $query->execute(['id' => $id]);
     }
 
+    public function createBook(string $title, string $author, string $description, bool $availability, string $cover, int $userId): bool
+    {
+        $sql = "INSERT INTO books (title, author, description, availability, cover, user_id) 
+            VALUES (:title, :author, :description, :availability, :cover, :user_id)";
+        $query= $this->db->prepare($sql);
+        return $query->execute([
+            'title' => $title,
+            'author' => $author,
+            'description' => $description,
+            'availability' => $availability,
+            'cover' => $cover,
+            'user_id' => $userId,
+            ]);
+    }
+
 }

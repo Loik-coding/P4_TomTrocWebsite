@@ -1,4 +1,7 @@
-<h1>Mon compte</h1>
+<div class="layout-row">
+    <h1>Mon compte</h1>
+    <a href="index.php?page=bookPost" class="cta-button-inverted">Ajouter un livre à ma collection</a>
+</div>
 
 <div class="layout-row">
     <div class="profile-layout">
