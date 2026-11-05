@@ -46,6 +46,5 @@ class BookController
 
         // On affiche le template principal.
         require TEMPLATE_VIEW_PATH . 'main.php';
-
     }
 }
