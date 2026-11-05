@@ -71,6 +71,11 @@ switch ($page) {
         $controller->updateUser();
         break;
 
+    case 'userProfile' :
+        $controller = new UserController();
+        $controller->userProfile();
+        break;
+
     default:
         echo "Page introuvable.";
         break;
