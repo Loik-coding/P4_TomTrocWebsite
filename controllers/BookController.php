@@ -48,7 +48,7 @@ class BookController
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
-    public function createBook(string $title, string $author, string $description, bool $availability, string $cover, int $userId)
+    public function createBook()
     {
         if (!Utils::isUserConnected()) {
             header('Location: index.php?page=home');
@@ -63,11 +63,14 @@ class BookController
             $author = trim($_POST['author']);
             $description = trim($_POST['description']);
             $availability = trim($_POST['availability']);
-            $cover = trim($_POST['cover']);            
+                       
         }
 
         $bookManager = new BookManager();
-        $book = $bookManager->createBook($title, $author, $description, $availability, $cover, $userId);
+        $book = $bookManager->createBook($title, $author, $description, $availability, $userId);
+        
+        header('Location: index.php?page=myAccount');
+
 
     }
 }

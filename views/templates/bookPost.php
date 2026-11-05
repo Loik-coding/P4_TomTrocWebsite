@@ -24,24 +24,14 @@
                 <input type="text" id="description" name="description" required>
             </div>
             <div>
-                <label for="aivailability">Disponibilité</label>
+                <label for="availability">Disponibilité</label>
                 <select id="availability" name="availability">
                     <option value="true">Disponible</option>
                     <option value="false">Indisponible</option>
                     <option value="be">Belgique</option>
                 </select>
-            </div>
-            <div>
-                <label for="title">Titre</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            <div>
-                <label for="title">Titre</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            
-
+            </div>           
             <button type="submit">Publier</button>
         </form>
     </div>
-    </div>
+</div>
