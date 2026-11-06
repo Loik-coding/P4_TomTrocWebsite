@@ -4,7 +4,7 @@ class HomeController
 {
 
 //-------------------------------------------------------------------------------//
-//    01 - AFFICHAGE DES PAGES                                                   //
+//    01 - AFFICHAGE DES PAGES SANS BESOIN D'ÊTRE CONNECTE                       //
 //-------------------------------------------------------------------------------//
 
     // Affichage de la page d'accueil.
@@ -84,4 +84,45 @@ class HomeController
         // On affiche le template principal.
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
+
+    // Récupère les infos d'un utilisateur et charge la page
+    public function userProfile()
+    {
+        $id = Utils::request("id", -1);
+
+        //on instancie le manager
+        $userManager = new UserManager();
+
+        $user = $userManager->getUserById($id);
+        //Get user pseudo
+        $userPseudo = $user->getPseudo();
+        //Get user email
+        //Get user profile picture
+        $userProfilePicture = $user->getProfilePicture();
+
+        //get the number of books owned by the user
+        $bookManager = new BookManager();
+        $booksCount = $bookManager->getBooksCountByUserId($id);
+
+        //Get books owned by the user
+        $userBooks = $bookManager->getBooksByUserId($id);
+
+        //Get user time since subscription
+        $timeSinceSubscription = $user->getTimeSinceSubscription();
+
+        //on vérifie que le user existe
+        if ($user === null) {
+            echo "Utilisateur introuvable.";
+            return;
+        }
+
+        //on charge la vue avec les données
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'userProfile.php';
+        $content = ob_get_clean();
+
+        // On affiche le template principal.
+        require TEMPLATE_VIEW_PATH . 'main.php';
+    }
+
 }

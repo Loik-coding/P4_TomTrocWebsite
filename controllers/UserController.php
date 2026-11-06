@@ -23,9 +23,89 @@ class UserController
         }
     }
 
+//-------------------------------------------------------------------------------//
+//    02 - CONTROLES D'IMAGES, NOMMAGE, ENREGISTREMENT                           //
+//-------------------------------------------------------------------------------//
+
+    private function checkImageUpload(): array
+    {
+        // Vérifie que le fichier a été envoyé sinon redirige.
+        if (!isset($_FILES['profilePicture']) ||
+            $_FILES['profilePicture']['error'] !== UPLOAD_ERR_OK) {
+            header('Location: index.php?page=myAccount');
+            exit;
+        } 
+        // Retourne le fichier.
+        return $_FILES['profilePicture'];
+    }
+
+    private function checkImageSize(array $file): void
+    {
+        // Variable de taille de fichier max (3Mo).
+        $maxSize = 3 * 1024 * 1024;
+        // Contrôle la taille de l'image et redirige si nécessaire.
+        if ($file['size'] > $maxSize) {
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
+    }
+
+    private function checkImageMimeType(array $file): string
+    {
+        // Vérifier le véritable type MIME du fichier
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->file($file['tmp_name']);
+
+        $allowedTypes = [
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp'
+        ];
+
+        // Redirige si le type du fichier n'est pas autorisé
+        if (!array_key_exists($mimeType, $allowedTypes)) {
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
+
+        // Vérifier qu'il s'agit bien d'une image
+        if (getimagesize($file['tmp_name']) === false) {
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
+
+        // Retourne les extensions autorisées.
+        return $allowedTypes[$mimeType];
+    }
+
+    private function setFileName(int $userId, string $extension): string
+    {
+        // Créer un nom de fichier unique
+        $fileName = 'user_' . $userId . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
+
+        return $fileName;
+    }    
+
+
+    private function setFileDirectory(array $file, string $fileName): string
+    {
+        // Définir le dossier de destination
+        $uploadDirectory = dirname(__DIR__) . '/images/users/';
+
+        // Déplacer le fichier dans le dossier
+        if (!move_uploaded_file($file['tmp_name'], $uploadDirectory . $fileName)) {
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
+
+        // Chemin à enregistrer dans la BDD
+        $coverPath = 'images/users/' . $fileName;
+        return $coverPath;
+    }
+
 
 //-------------------------------------------------------------------------------//
-//    02 - AFFICHAGE DES PAGES                                                   //
+//    03 - AFFICHAGE DES PAGES                                                   //
 //-------------------------------------------------------------------------------//
 
     // Affiche la page de connection SSI le user n'est pas déjà connecté.
@@ -50,7 +130,6 @@ class UserController
         ob_start();
         require TEMPLATE_VIEW_PATH . 'register.php';
         $content = ob_get_clean();
-
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
@@ -81,15 +160,47 @@ class UserController
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
+    // Affiche la page d'ajout de livre
+    public function bookPost()
+    {
+        // Redirige un utilisateur non connecté sur la page login.
+        $this->redirectIfNotConnected();
+
+        //on charge la vue avec les données
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'bookPost.php';
+        $content = ob_get_clean();
+        require TEMPLATE_VIEW_PATH . 'main.php';
+    }
+
+    // Récupère les informations du livre et affiche la page modifier le livre
+    public function bookModifier()
+    {
+        // Redirige un utilisateur non connecté sur la page login.
+        $this->redirectIfNotConnected();
+
+        // Récupère l'id du livre.
+        $bookId = Utils::request("id", -1);
+
+        // Instancie le BookManager et récupère les infos du livre
+        $bookManager = new BookManager;
+        $book = $bookManager->getBookById($bookId);
+
+        //on charge la vue avec les données
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'bookModifier.php';
+        $content = ob_get_clean();
+        require TEMPLATE_VIEW_PATH . 'main.php';
+    }
+
 //-------------------------------------------------------------------------------//
-//    03 - CREATION DE COMPTE & CONNEXION/DECONNEXION                            //
+//    04 - CREATION DE COMPTE & CONNEXION/DECONNEXION                            //
 //-------------------------------------------------------------------------------//
 
     public function registerForm()
     {
         // On empêche un utilisateur connecté de créer un autre compte.
-        $redirect = "myAccount";
-        $this->redirectIfConnected($redirect);
+        $this->redirectIfConnected("myAccount");
 
         // On récupère les données du formulaire.
         $pseudo = trim($_POST['pseudo'] ?? '');
@@ -102,12 +213,10 @@ class UserController
         if (empty($pseudo)) {
             $errors[] = "Le pseudo est obligatoire.";
         }
-
         // Vérification de l'email.
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "L'adresse email n'est pas valide.";
         }
-
         // Vérification du mot de passe.
         if (strlen($password) < 8) {
             $errors[] = "Le mot de passe doit contenir au moins 8 caractères.";
@@ -120,19 +229,14 @@ class UserController
         if (empty($errors) && $userManager->getUserByEmail($email) !== null) {
             $errors[] = "Cette adresse email est déjà utilisée.";
         }
-
         // Si aucune erreur n'a été détectée.
         if (empty($errors)) {
-
             // On chiffre le mot de passe.
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
             // On enregistre le nouvel utilisateur.
             $userManager->createUser($pseudo, $email, $hashedPassword);
-
             // On prépare un message de confirmation.
             $_SESSION['success'] = "Votre compte a bien été créé. Vous pouvez vous connecter.";
-
             // On redirige vers la connexion.
             header('Location: index.php?page=login');
             exit;
@@ -142,20 +246,17 @@ class UserController
         ob_start();
         require TEMPLATE_VIEW_PATH . 'register.php';
         $content = ob_get_clean();
-
         require TEMPLATE_VIEW_PATH . 'main.php';      
     }
 
     public function loginForm()
     {
         // On empêche un utilisateur connecté de créer un autre compte.
-        $redirect = "myAccount";
-        $this->redirectIfConnected($redirect);
+        $this->redirectIfConnected("myAccount");
 
         // On récupère les données du formulaire.
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
-
         $errors = [];
 
         // Vérification des champs.
@@ -165,7 +266,6 @@ class UserController
 
         // On recherche l'utilisateur par son email.
         if (empty($errors)) {
-
             $userManager = new UserManager();
             $user = $userManager->getUserByEmail($email);
 
@@ -177,17 +277,14 @@ class UserController
 
         // Si aucune erreur n'a été détectée.
         if (empty($errors)) {
-
             // On renouvelle l'identifiant de session pour la sécurité.
             session_regenerate_id(true);
-
             // On enregistre les informations utiles de l'utilisateur en session.
             $_SESSION['user'] = [
                 'id' => $user->getId(),
                 'pseudo' => $user->getPseudo(),
                 'email' => $user->getEmail()
             ];
-
             // On redirige vers l'accueil du site'.
             header('Location: index.php?page=myAccount');
             exit;
@@ -197,7 +294,6 @@ class UserController
         ob_start();
         require TEMPLATE_VIEW_PATH . 'login.php';
         $content = ob_get_clean();
-
         require TEMPLATE_VIEW_PATH . 'main.php';
     }
 
@@ -211,70 +307,32 @@ class UserController
         exit;
     }
 
-
-
-
+//-------------------------------------------------------------------------------//
+//    05 - MODFICATIONS DE L'UTILISATEUR                                         //
+//-------------------------------------------------------------------------------//
 
     public function updateProfilePicture()
     {
-        // Redirige un utilisateur non connecté sur la page login
+        // Redirige un utilisateur non connecté sur la page login.
         $this->redirectIfNotConnected();
+  
+        // Récupère l'id du user connecté.
+        $userId = $_SESSION['user']['id'] ?? null;
 
-        // Vérifier que le fichier a bien été envoyé
-        if (!isset($_FILES['profilePicture']) ||
-            $_FILES['profilePicture']['error'] !== UPLOAD_ERR_OK) {
-            header('Location: index.php?page=myAccount');
-            exit;
-        }
+        // Récupère le fichier.
+        $file = $this->checkImageUpload();
 
-        $file = $_FILES['profilePicture'];
+        // Vérifie sa taille.
+        $this->checkImageSize($file);
 
-        // Vérifier la taille : maximum 3 Mo
-        $maxSize = 3 * 1024 * 1024;
+        // Récupère son extension.
+        $extension = $this->checkImageMimeType($file);
 
-        if ($file['size'] > $maxSize) {
-            header('Location: index.php?page=myAccount');
-            exit;
-        }
+        // Créé un nouveau nom de fichier.
+        $fileName = $this->setFileName($userId, $extension);
 
-        // Vérifier le véritable type MIME du fichier
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mimeType = $finfo->file($file['tmp_name']);
-
-        $allowedTypes = [
-            'image/jpeg' => 'jpg',
-            'image/png'  => 'png',
-            'image/webp' => 'webp'
-        ];
-
-        if (!array_key_exists($mimeType, $allowedTypes)) {
-            header('Location: index.php?page=myAccount');
-            exit;
-        }
-
-        // Vérifier qu'il s'agit bien d'une image
-        if (getimagesize($file['tmp_name']) === false) {
-            header('Location: index.php?page=myAccount');
-            exit;
-        }
-
-        // Créer un nom de fichier unique
-        $userId = $_SESSION['user']['id'];
-        $extension = $allowedTypes[$mimeType];
-
-        $fileName = 'profile_' . $userId . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
-
-        // Définir le dossier de destination
-        $uploadDirectory = dirname(__DIR__) . '/images/users/';
-
-        // Déplacer le fichier dans le dossier
-        if (!move_uploaded_file($file['tmp_name'], $uploadDirectory . $fileName)) {
-            header('Location: index.php?page=myAccount');
-            exit;
-        }
-
-        // Chemin à enregistrer dans la BDD
-        $profilePicturePath = 'images/users/' . $fileName;
+        // Déplace le fichier dans un dossier du server.
+        $profilePicturePath = $this->setFileDirectory($file, $fileName);
 
         // Mettre à jour la photo dans la BDD
         $userManager = new UserManager();
@@ -287,10 +345,8 @@ class UserController
 
     public function updateUser()
     {
-        if (!Utils::isUserConnected()) {
-            header('Location: index.php?page=home');
-            exit;
-        }
+        // Redirige un utilisateur non connecté sur la page login.
+        $this->redirectIfNotConnected();
 
         //Get user id from session
         $userId = $_SESSION['user']['id'] ?? null;
@@ -325,99 +381,12 @@ class UserController
 
         $user = $userManager->updateUser($userId, $userPseudo, $userEmail, $userPassword);
         
-        // On prépare un message de confirmation.
+        // Prépare un message de confirmation.
         $_SESSION['success'] = "Votre compte a bien été modifié.";
-
+        // Redirige sur la page mon Compte.
         header('Location: index.php?page=myAccount');
         exit;
 
     }
 
-    public function userProfile()
-    {
-        $id = Utils::request("id", -1);
-
-        //on instancie le manager
-        $userManager = new UserManager();
-
-        $user = $userManager->getUserById($id);
-        //Get user pseudo
-        $userPseudo = $user->getPseudo();
-        //Get user email
-        //Get user profile picture
-        $userProfilePicture = $user->getProfilePicture();
-
-        //get the number of books owned by the user
-        $bookManager = new BookManager();
-        $booksCount = $bookManager->getBooksCountByUserId($id);
-
-        //Get books owned by the user
-        $userBooks = $bookManager->getBooksByUserId($id);
-
-        //Get user time since subscription
-        $timeSinceSubscription = $user->getTimeSinceSubscription();
-
-        //on vérifie que le user existe
-        if ($user === null) {
-            echo "Utilisateur introuvable.";
-            return;
-        }
-
-        //on charge la vue avec les données
-        ob_start();
-        require TEMPLATE_VIEW_PATH . 'userProfile.php';
-        $content = ob_get_clean();
-
-        // On affiche le template principal.
-        require TEMPLATE_VIEW_PATH . 'main.php';
-    }
-
-    public function bookPost()
-    {
-        if (!Utils::isUserConnected()) {
-            header('Location: index.php?page=home');
-            exit;
-        }
-
-        //on charge la vue avec les données
-        ob_start();
-        require TEMPLATE_VIEW_PATH . 'bookPost.php';
-        $content = ob_get_clean();
-
-        // On affiche le template principal.
-        require TEMPLATE_VIEW_PATH . 'main.php';
-    }
-
-    public function bookModifier()
-    {
-        if (!Utils::isUserConnected()) {
-            header('Location: index.php?page=home');
-            exit;
-        }
-
-        $bookId = Utils::request("id", -1);
-
-        $bookManager = new BookManager;
-        $book = $bookManager->getBookById($bookId);
-
-        //Get book title
-        $title = $book->getTitle();
-        //Get book author
-        $author = $book->getAuthor();
-        //Get book descrption
-        $description = $book->getDescription();
-        //Get book availability
-        $availability = $book->getAvailability();
-        //Get book cover
-        $cover = $book->getCover();
-
-        //on charge la vue avec les données
-        ob_start();
-        require TEMPLATE_VIEW_PATH . 'bookModifier.php';
-        $content = ob_get_clean();
-
-        // On affiche le template principal.
-        require TEMPLATE_VIEW_PATH . 'main.php';
-
-    }
 }

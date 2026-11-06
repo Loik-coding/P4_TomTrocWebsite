@@ -2,6 +2,12 @@
 
 class UserManager extends AbstractEntityManager
 {
+ 
+//-------------------------------------------------------------------------------//
+//    01 - GETTER                                                                //
+//-------------------------------------------------------------------------------//
+
+    // Récupère les infos d'un user à partir de son email
     public function getUserByEmail(string $email): ?User
     {
         $sql = "SELECT * FROM users WHERE email = :email";
@@ -18,20 +24,7 @@ class UserManager extends AbstractEntityManager
         return new User($userData);
     }
 
-    public function createUser(
-        string $pseudo,
-        string $email,
-        string $password,
-    ): bool {
-        $sql = "INSERT INTO users (pseudo, email, password) VALUES (:pseudo, :email, :password)";
-        $query = $this->db->prepare($sql);
-        return $query->execute([
-            'pseudo' => $pseudo,
-            'email' => $email,
-            'password' => $password
-        ]);
-    }
-
+    // Récupère les infos d'un user à partir de son id.
     public function getUserById(int $id): ?User
     {
         $sql = "SELECT * FROM users WHERE id = :id";
@@ -47,6 +40,28 @@ class UserManager extends AbstractEntityManager
 
         return new User($userData);
     }
+
+//-------------------------------------------------------------------------------//
+//    02 - CREATE                                                                //
+//-------------------------------------------------------------------------------//
+
+    public function createUser(
+        string $pseudo,
+        string $email,
+        string $password,
+    ): bool {
+        $sql = "INSERT INTO users (pseudo, email, password) VALUES (:pseudo, :email, :password)";
+        $query = $this->db->prepare($sql);
+        return $query->execute([
+            'pseudo' => $pseudo,
+            'email' => $email,
+            'password' => $password
+        ]);
+    }
+
+//-------------------------------------------------------------------------------//
+//    03 - UPDATE                                                                //
+//-------------------------------------------------------------------------------//
 
     public function updateProfilePicture(int $userId, string $profilePicturePath): bool
     {

@@ -28,7 +28,7 @@ class BookController
     }
 
 //-------------------------------------------------------------------------------//
-//    03 - CONTROLES D'IMAGES, NOMMAGE, ENREGISTREMENT                           //
+//    02 - CONTROLES D'IMAGES, NOMMAGE, ENREGISTREMENT                           //
 //-------------------------------------------------------------------------------//
 
     private function checkImageUpload(int $bookId): array

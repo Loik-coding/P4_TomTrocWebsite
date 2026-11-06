@@ -85,7 +85,7 @@ switch ($page) {
 
     //Display user profile page for external consulting
     case 'userProfile' :
-        $controller = new UserController();
+        $controller = new HomeController();
         $controller->userProfile();
         break;
     
