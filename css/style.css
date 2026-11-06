@@ -770,8 +770,9 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: #ffffff;
+    min-height: 0;
 }
 
 .messaging-conversation h2 {
@@ -829,6 +830,41 @@ footer {
 .message-sent .message {
     background-color: #E1EEE5;
 }
+
+/* ZONE DES MESSAGES */
+
+.messages-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* FORMULAIRE */
+
+.messaging-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    flex-shrink: 0;
+    padding-top: 15px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.messaging-form textarea {
+    flex: 1;
+    min-width: 0;
+    resize: none;
+}
+
+.messaging-form button {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
 
 /* RESPONSIVE */
 
