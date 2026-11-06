@@ -3,16 +3,16 @@
 class Message
 {
     private $id;
-    private $fromUserId;
-    private $toUserId;
+    private $senderId;
+    private $receiverId;
     private $date;
     private $content;
 
     public function __construct(array $data)
     {
         $this->id = $data['id'];
-        $this->fromUserId = $data['from_user_id'];
-        $this->toUserId = $data['to_user_id'];
+        $this->senderId = $data['sender_id'];
+        $this->receiverId = $data['receiver_id'];
         $this->date = $data['date'];
         $this->content = $data['content'];
     }
@@ -22,14 +22,14 @@ class Message
         return $this->id;
     }
 
-    public function getFromUserId()
+    public function getSenderId()
     {
-        return $this->fromUserId;
+        return $this->senderId;
     }
 
-    public function getToUserId()
+    public function getReceiverId()
     {
-        return $this->toUserId;
+        return $this->receiverId;
     }
 
     public function getDate()

@@ -2,50 +2,74 @@
 
 class MessageManager extends AbstractEntityManager
 {
-    public function getMessageToId(int $id): ?message
+    public function getContacts($userId) : array
     {
-        //on prépare la requete SQL
-        $sql = "SELECT messenger.*, users.pseudo, users.profile_picture FROM messenger INNER JOIN users ON messenger.to_user_id = users.id WHERE users.id = :id";
-        $query = $this->db->prepare($sql);
-
-        //on associe la valeur de $id au paramètre :id
-        $query->execute([
-            'id' => $id
-        ]);
-
-        //on récupère le résultat
-        $messageData = $query->fetch();
-        if (!$messageData) {
-            return null;
-        }
-        return new Message($messageData);
-    }
-
-    public function getLastMessagesByContact(int $userId): array
-    {
-        // On prépare la requête SQL.
-        $sql = "SELECT * FROM messenger WHERE from_user_id = :userId OR to_user_id = :userId ORDER BY date DESC";
+        // Requête pour récupérer les messages envoyés et reçus par notre user
+        $sql = "SELECT *
+            FROM messenger
+            WHERE sender_id = :userId
+            OR receiver_id = :userId
+            ORDER BY date DESC";
+        // Prépare et éxécute la requête.
         $query = $this->db->prepare($sql);
         $query->execute(['userId' => $userId]);
 
+        // Récupère les messages.
         $messages = $query->fetchAll(PDO::FETCH_ASSOC);
 
+        // Variable pour stocker les contact et le dernier message.
         $contacts = [];
 
+        // Parcourt les messages.
         foreach ($messages as $message) {
 
-            if ($message['from_user_id'] == $userId) {
-                $contactId = $message['to_user_id'];
+            if ($message['sender_id'] == $userId) {
+                $contactId = $message['receiver_id'];
             } else {
-                $contactId = $message['from_user_id'];
+                $contactId = $message['sender_id'];
             }
 
+            // Vérifie si le contact est déjà dans la liste
             if (!isset($contacts[$contactId])) {
                 $contacts[$contactId] = $message;
             }
         }
-
         return $contacts;
     }
 
+    // Récupère la conversation entre deux users.
+    public function getMessagesWithUser(int $userId,int $contactId)
+    {
+        // Requête pour récupérer les messages échangés entre 2 users.
+        $sql = "SELECT * FROM messenger 
+            WHERE (sender_id = :userId AND receiver_id = :contactId)
+            OR (sender_id = :contactId2 AND receiver_id = :userId2)ORDER BY date DESC";
+
+        // Préparation de la requête.
+        $query = $this->db->prepare($sql);
+        
+        // Execution de la requête.
+        $query->execute([
+            'userId' => $userId,
+            'contactId' => $contactId,
+            'userId2' => $userId,
+            'contactId2' => $contactId,
+        ]);
+
+        // Tableau qui contiendra les messages.
+        $messages = [];
+
+        // On enregistre les messages.
+        while ($messageData = $query->fetch()) {
+            $messages[] = new Message($messageData);
+        }
+        
+        // Renvoi les messages.
+        return $messages;
+    }
+
+    public function sendMessage()
+    {
+
+    }
 }

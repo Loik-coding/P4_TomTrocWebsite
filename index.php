@@ -119,11 +119,13 @@ switch ($page) {
         $controller->updateBook();
         break;
 
-    case 'showMessenger' :
+    // Display the messenger page.
+    case 'messaging' :
         $controller = new MessageController();
-        $controller->showMessenger();
+        $controller->messaging();
         break;
 
+    // Launch the sending message method.
     case 'sendMessage' :
         $controller = new MessageController();
         $controller->sendMessage();
