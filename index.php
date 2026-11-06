@@ -19,13 +19,13 @@ switch ($page) {
 
     //display bookslisting page
     case 'booksListing':
-        $controller = new BookController();
+        $controller = new HomeController();
         $controller->booksListing();
         break;
 
     //display bookDetails page
     case 'bookDetails':
-        $controller = new BookController();
+        $controller = new HomeController();
         $controller->bookDetails();
         break;
 
