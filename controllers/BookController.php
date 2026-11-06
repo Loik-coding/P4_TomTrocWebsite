@@ -131,8 +131,7 @@ class BookController
                 $cover = "images/books/" . $_FILES['cover']['name'];
                 // Déplace l'image dans le dossier du site.
                 move_uploaded_file($_FILES['cover']['tmp_name'], $cover);
-            }
-            
+            } else $cover = "";
         }
         
         // Instancie le BookManager pour créer le livre dans la BDD.

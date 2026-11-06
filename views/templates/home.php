@@ -21,7 +21,7 @@
                     <img src="<?= htmlspecialchars($book->getCover()) ?>" alt="Couverture de <?= htmlspecialchars($book->getTitle()) ?>">
                     <h2><?=  htmlspecialchars($book->getTitle()) ?></h2>
                     <p><?= htmlspecialchars($book->getAuthor()) ?></p>
-                    <p>Vendu par : <?= htmlspecialchars($book->getUserId()) ?></p>
+                    <p>Vendu par : <?= htmlspecialchars($book->getUserPseudo()) ?></p>
                 </article>
             </a>
         <?php endforeach; ?>

@@ -7,10 +7,10 @@ class BookManager extends AbstractEntityManager
 //-------------------------------------------------------------------------------//
 
     // Fonction GetBooks avec paramètres.
-    public function getBooksByParameters(string $select, string $where, string $orderBy, string $quantity)
+    public function getBooksByParameters(string $select, string $join, string $where, string $orderBy, string $quantity)
     {
         // Prépare la requete SQL paramétrée.
-        $sql = "SELECT $select FROM books WHERE $where $orderBy $quantity";
+        $sql = "SELECT $select FROM books $join WHERE $where $orderBy $quantity";
         $query = $this->db->prepare($sql);
 
         // On initialise un tableau qui contiendra les livres.

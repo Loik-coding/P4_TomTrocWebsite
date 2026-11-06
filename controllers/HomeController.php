@@ -12,11 +12,12 @@ class HomeController
     public function home()
     {
         $bookManager = new BookManager();
-        $select = "*";
+        $select = "books.*, users.pseudo";
+        $join = "INNER JOIN users ON books.user_id = users.id";
         $where = "availability = 1";
         $orderBy = "ORDER BY id";
         $quantity = "DESC LIMIT 4";
-        $last4Books = $bookManager->getBooksByParameters($select, $where, $orderBy, $quantity);
+        $last4Books = $bookManager->getBooksByParameters($select, $join, $where, $orderBy, $quantity);
 
         //on charge la vue avec les données
         ob_start();
@@ -41,11 +42,12 @@ class HomeController
             $books = $bookManager->searchBooks($search);
         } else {
             //On défini les paramètres de la méthode.
-            $select = "*";
+            $select = "books.*, users.pseudo";
+            $join = "INNER JOIN users ON books.user_id = users.id";
             $where = "availability = 1";
             $orderBy = "ORDER BY id";
             $quantity = "DESC";
-            $books = $bookManager->getBooksByParameters($select, $where, $orderBy, $quantity);
+            $books = $bookManager->getBooksByParameters($select, $join, $where, $orderBy, $quantity);
         }
 
         //on charge la vue avec les données
