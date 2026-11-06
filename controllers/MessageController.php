@@ -47,6 +47,8 @@ class MessageController
 
     // Récupère l'id de la conversation sélectionnée.
     $contactId = Utils::request("id", -1);
+    $contact = $userManager->getUserById($contactId);
+    $contactPseudo = $contact->getPseudo();
     // Récupère les messages avec le contact.
     $messages = $messageManager->getMessagesWithUser($userId, $contactId);
 

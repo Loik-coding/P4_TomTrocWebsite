@@ -43,7 +43,7 @@ class MessageManager extends AbstractEntityManager
         // Requête pour récupérer les messages échangés entre 2 users.
         $sql = "SELECT * FROM messenger 
             WHERE (sender_id = :userId AND receiver_id = :contactId)
-            OR (sender_id = :contactId2 AND receiver_id = :userId2)ORDER BY date DESC";
+            OR (sender_id = :contactId2 AND receiver_id = :userId2)ORDER BY date ASC";
 
         // Préparation de la requête.
         $query = $this->db->prepare($sql);

@@ -1,39 +1,59 @@
-
-
-<section class="messaging">
+<section class="messaging-page">
 
     <h1>Messagerie</h1>
 
-    <?php if (empty($contacts)) : ?>
-
-        <p>Vous n'avez pas encore de conversation.</p>
-
-    <?php else : ?>
+    <div class="messaging-container">
+        <!-- Colonne des contacts -->
         <div class="messaging-list">
             <?php foreach ($contacts as $contactId => $contact) : ?>
-                <a href = "index.php?page=messaging&id=<?= $contactId ?>">
-                    <article class="messaging-card">
-                        <div class="messaging-contact">
-                            <?= htmlspecialchars($contact['pseudo']) ?>
-                        </div>
-                        <div class="messaging-content">
-                            <?= htmlspecialchars($contact['content']) ?>
-                        </div>
-                        <div class="messaging-date">
-                            <?= date('d/m/Y à H:i', strtotime($contact['date'])) ?>
-                        </div>
-                    </article>
-                </a>     
-            <?php endforeach; ?>  
+                <a class="messaging-card"
+                   href="index.php?page=messaging&id=<?= $contactId ?>">
+                    <div class="messaging-contact">
+                        <?= htmlspecialchars($contact['pseudo']) ?>
+                    </div>
+                    <div class="messaging-content">
+                        <?= htmlspecialchars($contact['content']) ?>
+                    </div>
+                    <div class="messaging-date">
+                        <?= date('d/m/Y à H:i', strtotime($contact['date'])) ?>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
-    <?php endif; ?>
+
+        <!-- Colonne des messages -->
+        <div class="messaging-conversation">
+
+            <?php if ($contactId) : ?>
+
+                <h2>Conversation avec <?= htmlspecialchars($contactPseudo) ?></h2>
+
+                <?php foreach ($messages as $message) : ?>
+                    <?php
+                    // Détermine si le message est envoyé ou reçu.
+                    $isSent = $message->getSenderId() == $userId;
+                    // Détermine le pseudo de l'expéditeur.
+                    $senderPseudo = $isSent
+                        ? $_SESSION['user']['pseudo']
+                        : $contactPseudo;
+                    ?>
+
+                    <div class="message-wrapper <?= $isSent ? 'message-sent' : 'message-received' ?>">
+                        <div class="message-info">
+                            <?= htmlspecialchars($senderPseudo) ?>
+                            ·
+                            <?= date('d/m/Y à H:i', strtotime($message->getDate())) ?>
+                        </div>
+                        <div class="message">
+                            <?= htmlspecialchars($message->getContent()) ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            <?php else : ?>
+                <p>Sélectionnez une conversation pour afficher vos messages.</p>
+            <?php endif; ?>
+
+        </div>
+    </div>
 </section>
-
-
-<?php foreach ($messages as $message) : ?>
-
-    <p>
-        <?= htmlspecialchars($message->getContent()) ?>
-    </p>
-
-<?php endforeach; ?>

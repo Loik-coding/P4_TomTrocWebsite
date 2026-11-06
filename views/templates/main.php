@@ -19,7 +19,7 @@
         <nav class="nav-right">
   
             <?php if (Utils::isUserConnected()) : ?>
-                <a href="index.php?page=myAccount" class="nav-svg">
+                <a href="index.php?page=messaging" class="nav-svg">
                     <span class="icon-message"></span>
                     Messagerie
                 </a>
