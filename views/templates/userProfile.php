@@ -2,10 +2,10 @@
     <div class="profile-layout">
         <img class="profile-picture"src="<?= htmlspecialchars($userProfilePicture) ?>" alt="Photo de profil de <?= htmlspecialchars($userPseudo) ?>">
         <h2><?= htmlspecialchars($userPseudo) ?></h2>
-        <p>Membre depuis <?= $timeSinceSubscription ?> </p>
-        <p>BIBLIOTHEQUE</p>
-        <p><?= htmlspecialchars($booksCount) ?> livres</p>
-        <a href="index.php?page=showMessenger&id=<?= htmlspecialchars($id) ?>" class="cta-button">Écrire un message</a>
+        <p class="color-muted">Membre depuis <?= $timeSinceSubscription ?> </p>
+        <p class="small">BIBLIOTHEQUE</p>
+        <p><span class="icon-book"></span> <?= htmlspecialchars($booksCount) ?> livres</p>
+        <a href="index.php?page=showMessenger&id=<?= htmlspecialchars($id) ?>" class="cta-button-inverted">Écrire un message</a>
     </div>
     <div class="profile-layout ">
         <table class="books-array">

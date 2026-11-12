@@ -39,10 +39,10 @@
                     required
                 >
             </div>
-            <button type="submit">Créer mon compte</button>
+            <button type="submit">S'inscrire</button>
             <p>
                 Déjà inscrit ?
-                <a href="index.php?page=login">Se connecter</a>
+                <a href="index.php?page=login">Connectez-vous</a>
             </p>
         </form>
     </div>

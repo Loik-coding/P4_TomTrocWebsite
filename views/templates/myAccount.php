@@ -11,9 +11,9 @@
             <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required onchange="this.form.submit()">
         </form>
         <h2><?= htmlspecialchars($user->getPseudo()) ?></h2>
-        <p>Membre depuis <?= htmlspecialchars($user->getTimeSinceSubscription()) ?> </p>
-        <p>BIBLIOTHEQUE</p>
-        <p><?= htmlspecialchars($booksCount) ?> livres</p>
+        <p class="color-muted">Membre depuis <?= htmlspecialchars($user->getTimeSinceSubscription()) ?> </p>
+        <p class="small">BIBLIOTHEQUE</p>
+        <p><span class="icon-book"></span> <?= htmlspecialchars($booksCount) ?> livres</p>
     </div>
     <div class="profile-layout">
         <h2>Vos informations personnelles</h2>
@@ -38,7 +38,7 @@
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" name="password" value="<?= htmlspecialchars($user->getPassword()) ?>" required>         
             </div>
-            <button type="submit">Enregistrer</button>
+            <button class="submit-inverted" type="submit">Enregistrer</button>
         </form>
     </div>
 </div>

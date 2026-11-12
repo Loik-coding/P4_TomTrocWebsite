@@ -2,7 +2,7 @@
    1. VARIABLES ET BASE
 ========================= */
 :root {
-    --color-background1: #FAF9F7;
+    --color-background1: #FFFFFF;
     --color-background2: #F5F3EF;
     --color-white: #FFFFFF;
     --color-header: #F5F3EF;
@@ -11,7 +11,7 @@
     --color-secondary: #d9a18f;
     --color-text: #292929;
     --color-muted: #A6A6A6;
-    --color-border: #e5e2d9;
+    --color-border: #F0F0F0;
     --color-footer: #FFFFFF;
     --radius: 5px;
 }
@@ -35,6 +35,16 @@ h1, h2 {
 }
 
 p { font-size: 14px; }
+
+.small {
+    font-size: 10px;
+    margin: none;
+    padding: none;
+}
+
+.color-muted {
+    color: var(--color-muted);
+}
 
 /* =========================
    2. HEADER ET NAVIGATION
@@ -108,6 +118,15 @@ nav a:hover, .nav-svg:hover { color: var(--color-primary); }
     mask-image: url("../images/logo/account.svg");
 }
 
+.icon-book {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: currentColor;
+    -webkit-mask: url("../images/logo/livres.svg") no-repeat center / contain;
+    mask: url("../images/logo/livres.svg") no-repeat center / contain;
+}
+
 .fil-ariane {
     margin-left: 20%;
     margin-top: 24px;
@@ -127,6 +146,10 @@ main {
     min-height: 75vh;
     margin: auto;
     background: var(--color-background1);
+}
+
+footer {
+    background-color: var(--color-background1);
 }
 
 main > h1 {
@@ -181,6 +204,7 @@ main > h1 {
 
 .layout-row--userProfile .profile-layout {
     margin: 0;
+    background-color: transparent;
 }
 
 .layout-row--userProfile .profile-layout:first-child {
@@ -227,6 +251,11 @@ main > h1 {
     border: none;
 }
 
+.login-form label{
+    color : var(--color-muted);
+    font-weight: 300;
+}
+
 .login-form input { margin-bottom: 15px; padding: 12px; }
 .login-form p { margin-top: 20px; }
 
@@ -242,6 +271,32 @@ input[type="file"] { display: none; }
     cursor: pointer;
     color: var(--color-primary);
     text-decoration: underline;
+}
+
+.login-form a{
+    text-decoration: underline;
+}
+
+.login-form a:hover{
+    color: var(--color-muted);
+}
+
+.submit-inverted {
+    display: inline-block;
+    background-color: transparent;
+    margin: 24px 0;
+    padding: 12px 28px;
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    font: normal 15px Arial, sans-serif;
+    transition: all .3s ease;
+}
+
+.submit-inverted { color: var(--color-primary); }
+
+.submit-inverted:hover {
+    color: var(--color-white);
+    background: var(--color-primary);
 }
 
 .cta-button, .cta-button-inverted {
@@ -533,13 +588,43 @@ input[type="file"] { display: none; }
 .layout-row--book-update .create-book input,
 .layout-row--book-update .create-book select {
     height: 42px;
+    
 }
 
+.create-book label {
+    color: var(--color-muted);
+    font-weight: 200;
+}
+
+.create-book input,
+.create-book textarea,
+.create-book select{
+    background-color: #EDF2F6;
+}
+
+.create-book button {
+    display: inline-block;
+    margin: 24px 0;
+    padding: 12px 28px;
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    font: normal 15px Arial, sans-serif;
+    transition: all .3s ease;    
+    color: var(--color-white);
+    background: var(--color-primary);
+    width: 300px;
+}
+
+.create-book button:hover {
+    color: var(--color-primary);
+    background: var(--color-white);
+}
 /* Zone de commentaire */
 .layout-row--book-update .create-book textarea {
     height: 356px;
     resize: none;
     line-height: 1.4;
+    background-color: #777;
 }
 
 /* Bouton Publier */
@@ -646,11 +731,22 @@ input[type="file"] { display: none; }
     margin-top: 20px;
 }
 
+.owner-info a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .owner-info img {
     width: 48px;
     height: 48px;
+    flex-shrink: 0;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.owner-info p {
+    margin: 0;
 }
 
 .howtodo {
@@ -745,7 +841,10 @@ button {
 /* Tableau de la bibliothèque */
 .books-array {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
     background: var(--color-white);
     text-align: left;
     margin-top: 0;
@@ -754,14 +853,19 @@ button {
 .books-array th, .books-array td {
     padding: 15px;
     border-bottom: 1px solid var(--color-border);
-    font-size: 12px;
+    
 }
 
-.books-array th { color: var(--color-muted); }
+.books-array th { 
+    color: var(--color-text); 
+    font-size: 8px;
+    background-color: var(--color-background1);
+}
 
 .books-array td { 
     height: 130px;
     vertical-align: middle; 
+    font-size: 12px;
 }
 
 .books-array td img {
@@ -794,7 +898,14 @@ button {
     inset: 0;
 }
 
-.books-array tbody tr:hover { background: var(--color-background2); }
+.books-array tbody tr:nth-child(odd) {
+    background-color: var(--color-background1);
+}
+
+.books-array tbody tr:nth-child(even) {
+    background-color: #EDF2F6;
+}
+
 
 .book-description {
     display: -webkit-box;
