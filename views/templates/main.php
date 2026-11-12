@@ -13,24 +13,39 @@
     <header>
         <nav class="nav-left">
             <a href="index.php?page=home"><img src="images/logo/header-logo.svg"></a>
-            <a href="index.php?page=home">Accueil</a>
-            <a href="index.php?page=booksListing">Nos livres à l'échange</a>
+            <a href="index.php?page=home"
+            class="<?= ($_GET['page'] ?? '') === 'home' ? 'active' : '' ?>">
+                Accueil
+            </a>
+            <a href="index.php?page=booksListing"
+            class="<?= ($_GET['page'] ?? '') === 'booksListing' ? 'active' : '' ?>">
+                Nos livres à l'échange
+            </a>
         </nav>
         <nav class="nav-right">
   
             <?php if (Utils::isUserConnected()) : ?>
-                <a href="index.php?page=messaging" class="nav-svg">
+                <a href="index.php?page=messaging"
+                class="<?= ($_GET['page'] ?? '') === 'messaging' ? 'active' : '' ?>">
                     <span class="icon-message"></span>
                     Messagerie
                 </a>
-                <a href="index.php?page=myAccount" class="nav-svg">
+
+                <a href="index.php?page=myAccount"
+                    class="nav-svg <?= ($_GET['page'] ?? '') === 'myAccount' ? 'active' : '' ?>">
                     <span class="icon-account"></span>
                     Mon compte
                 </a>
                 <a href="index.php?page=logout">Déconnexion</a>                
             <?php else : ?>
-                <a href="index.php?page=login">Connexion</a>
-                <a href="index.php?page=register">Inscription</a>
+                <a href="index.php?page=login"                
+                    class="nav-svg <?= ($_GET['page'] ?? '') === 'login' ? 'active' : '' ?>">
+                    Connexion
+                </a>
+                <a href="index.php?page=register"
+                    class="<?= ($_GET['page'] ?? '') === 'register' ? 'active' : '' ?>">
+                    Inscription
+                </a>
             <?php endif ?>
         </nav>
     </header>

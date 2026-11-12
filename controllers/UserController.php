@@ -205,7 +205,7 @@ class UserController
         // On récupère les données du formulaire.
         $pseudo = trim($_POST['pseudo'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
+        $password = trim($_POST['password']) ?? '';
 
         $errors = [];
 

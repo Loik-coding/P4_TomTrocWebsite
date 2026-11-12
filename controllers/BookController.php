@@ -177,67 +177,69 @@ class BookController
 //    04 - MODIFICATION DE LIVRES                                                //
 //-------------------------------------------------------------------------------//
 
-    // Met à jour les informations d'un livre à partir d'un formulaire.
-    public function updateBook()
-    {
-        // Récupère l'id du livre concerné
-        $bookId = Utils::request("id", -1);
 
-        // Redirige si l'utilisateur n'est pas connecté
-        $this->redirectIfNotConnected();
-        // Vérifie que le livre appartient à l'utilisateur connecté.
-        $this->checkBooksOwner($bookId, "home");
-
-        // Vérifie que le formulaire a été soumis.
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Récupérer les données individuellement
-            $title = trim($_POST['title']);
-            $author = trim($_POST['author']);
-            $description = trim($_POST['description']);
-            $availability = trim($_POST['availability']);         
-        }
-
-        
-        $bookManager = new BookManager();
-        $bookManager->updateBook($bookId,$title,$author,$description,$availability);
-        
+// Met à jour les informations d'un livre à partir d'un formulaire.
+public function updateBook()
+{
+    // Vérifie que le formulaire a été soumis.
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
         header('Location: index.php?page=myAccount');
         exit;
-
     }
 
-    public function updateBookCover()
-    {
-        // Récupère l'id du livre concerné.
-        $bookId = Utils::request("id", -1);
+    // Récupère l'id du livre concerné.
+    $bookId = Utils::request("id", -1);
 
-        // Redirige si l'utilisateur n'est pas connecté.
-        $this->redirectIfNotConnected();
+    // Redirige si l'utilisateur n'est pas connecté.
+    $this->redirectIfNotConnected();
 
-        // Vérifie que le livre appartient à l'utilisateur connecté.
-        $this->checkBooksOwner($bookId, "home");
+    // Vérifie que le livre appartient à l'utilisateur connecté.
+    $this->checkBooksOwner($bookId, "home");
 
-        // Récupère le fichier.
+    // Récupère les informations du formulaire.
+    $title = trim($_POST['title']);
+    $author = trim($_POST['author']);
+    $description = trim($_POST['description']);
+    $availability = trim($_POST['availability']);
+
+    $bookManager = new BookManager();
+
+    // MISE A JOUR DE LA COVER.
+
+    // Vérifie si une nouvelle photo a été sélectionnée.
+    if (!empty($_FILES['cover']['name'])) {
+
+        // Récupère et vérifie le fichier.
         $file = $this->checkImageUpload($bookId);
 
         // Vérifie sa taille.
-        $this->checkImageSize($file,$bookId);
+        $this->checkImageSize($file, $bookId);
 
         // Récupère son extension.
-        $extension = $this->checkImageMimeType($file,$bookId);
+        $extension = $this->checkImageMimeType($file, $bookId);
 
-        // Créé un nouveau nom de fichier.
+        // Crée un nouveau nom de fichier.
         $fileName = $this->setFileName($bookId, $extension);
 
-        // Déplace le fichier dans un dossier du server.
+        // Déplace le fichier dans un dossier du serveur.
         $coverPath = $this->setFileDirectory($file, $fileName, $bookId);
 
-        // Mettre à jour la photo dans la BDD
-        $bookManager = new BookManager();
+        // Met à jour la photo dans la BDD.
         $bookManager->updateBookCover($bookId, $coverPath);
+    }
 
-        // Retourner sur le compte utilisateur
-        header('Location: index.php?page=bookModifier&id=' . $bookId);
-        exit;
+    // MISE A JOUR DES INFORMATIONS.
+
+    $bookManager->updateBook(
+        $bookId,
+        $title,
+        $author,
+        $description,
+        $availability
+    );
+
+    // Redirection après modification.
+    header('Location: index.php?page=bookModifier&id=' . $bookId);
+    exit;
     }
 }

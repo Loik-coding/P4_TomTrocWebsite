@@ -97,6 +97,4 @@ class MessageController
     }
 
 
-    // Enregistrer le message avec MessengerManager.
-    // Rediriger vers la conversation.
 }

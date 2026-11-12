@@ -60,6 +60,11 @@ nav {
     justify-content: space-between;
 }
 
+header nav a.active {
+    color: var(--color-text);
+    font-weight: bold;
+}
+
 .nav-left, .nav-right {
     display: flex;
     gap: 50px;
@@ -70,7 +75,7 @@ nav {
 
 nav a {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 300;
     transition: color .2s;
 }
 
@@ -127,6 +132,17 @@ main {
 main > h1 {
     margin: 0 0 35px 20%;
     font-size: 36px;
+}
+
+.layout-row-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.layout-row-values p {
+    margin: 0;
 }
 
 .layout-row {
@@ -325,42 +341,6 @@ input[type="file"] { display: none; }
     background-color: #EDF2F6;
 }
 
-.create-book{
-    background-color: var(--color-white);
-    border-radius: var(--radius);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    padding: 24px;
-}
-
-.create-book form {
-    width: 100%;
-    border: none;
-    margin: 0;
-    padding: 0;
-    
-}
-
-.create-book label {
-    color : var(--color-muted);
-    font-weight:300;
-}
-
-.create-book input {
-    background-color: #EDF2F6;
-}
-
-.create-book textarea {
-    background-color: #EDF2F6;
-    width: 100%;
-    height: 356px;
-    padding: 10px;
-    resize: none;
-}
 
 /* =========================
    4. LIVRES
@@ -384,6 +364,7 @@ input[type="file"] { display: none; }
     flex-direction: column;
     height: 420px;
     transition: transform .2s, box-shadow .2s;
+    background-color: var(--color-background1);
 }
 
 .book-card:hover {
@@ -428,12 +409,183 @@ input[type="file"] { display: none; }
     align-items: flex-start;
 }
 
-.update-book {
+
+/* =========================
+   PAGE MODIFICATION LIVRE
+========================= */
+
+/* Formulaire commun invisible */
+#updateBook {
+    display: none;
+}
+
+/* Carte principale */
+.layout-row--book-update {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
+    gap: 10%;
+
+    width: 80%;
+    margin: 0 auto 50px;
+    padding: 30px 3.5% 65px;
+
+    background-color: var(--color-white);
+    border-radius: 12px;
+}
+
+/* Annule les anciennes règles générales des colonnes */
+.layout-row--book-update > div {
+    flex: initial;
+    min-width: 0;
+    width: 100%;
+}
+
+/* COLONNE GAUCHE : PHOTO */
+
+.layout-row--book-update .update-book {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    ;
+    align-items: stretch;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+}
 
+.layout-row--book-update .update-book img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Lien modifier la photo */
+.layout-row--book-update .update-book label {
+    align-self: flex-end;
+    margin-top: 12px;
+    color: var(--color-text);
+    font-size: 12px;
+    font-weight: normal;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.layout-row--book-update .update-book label:hover {
+    color: var(--color-primary);
+}
+
+/* COLONNE DROITE : INFORMATIONS */
+
+.layout-row--book-update .create-book {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+}
+
+/* Blocs contenant les champs */
+.layout-row--book-update .create-book > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+/* Titres au-dessus des champs, alignés à gauche */
+.layout-row--book-update .create-book label {
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+
+    color: var(--color-muted);
+    font-size: 13px;
+    font-weight: normal;
+    text-align: left;
+}
+
+/* Champs de saisie */
+.layout-row--book-update .create-book input,
+.layout-row--book-update .create-book textarea,
+.layout-row--book-update .create-book select {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+
+    border: none;
+    border-radius: 5px;
+    background-color: #EDF2F6;
+
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+/* Hauteur des champs simples */
+.layout-row--book-update .create-book input,
+.layout-row--book-update .create-book select {
+    height: 42px;
+}
+
+/* Zone de commentaire */
+.layout-row--book-update .create-book textarea {
+    height: 356px;
+    resize: none;
+    line-height: 1.4;
+}
+
+/* Bouton Publier */
+.layout-row--book-update .create-book button {
+    align-self: center;
+    width: 75%;
+    margin-top: 10px;
+    padding: 14px;
+
+    border-radius: 7px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.layout-row--book-update .create-book button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* RESPONSIVE : MOBILE */
+
+@media (max-width: 650px) {
+
+    .layout-row--book-update {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 35px;
+        padding: 25px;
+    }
+
+    .layout-row--book-update .update-book,
+    .layout-row--book-update .create-book {
+        width: 100%;
+    }
+
+    .layout-row--book-update .update-book img {
+        max-width: 100%;
+    }
+
+    .layout-row--book-update .create-book textarea {
+        height: 250px;
+    }
+
+    .layout-row--book-update .create-book button {
+        width: 100%;
+    }
 }
 
 .update-book img {
@@ -443,25 +595,14 @@ input[type="file"] { display: none; }
     max-width: 100%;
 }
 
-.update-book-link {
-    width: 488px;
-    max-width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-    padding: 0;
-    border: none;
-    background: none;
-}
-
-.update-book-link label {
+.update-book label[for="cover"] {
     color: #999;
     text-decoration: underline;
     cursor: pointer;
     transition: color 0.2s ease;
 }
 
-.update-book-link label:hover {
+.update-book label[for="cover"]:hover {
     color: #333;
 }
 
@@ -588,10 +729,7 @@ input, textarea , select{
     background: var(--color-white);
 }
 
-input:focus, textarea:focus {
-    outline: 2px solid var(--color-primary);
-    border-color: transparent;
-}
+
 
 button {
     padding: 12px 22px;
@@ -601,10 +739,8 @@ button {
     background: var(--color-primary);
     font-weight: bold;
     cursor: pointer;
-    transition: background-color .2s;
 }
 
-button:hover { background: var(--color-primary-dark); }
 
 /* Tableau de la bibliothèque */
 .books-array {

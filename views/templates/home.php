@@ -65,5 +65,8 @@
         Nous sommes passionnés par la création d'une plateforme conviviale qui permet aux lecteurs de se connecter, 
         de partager leurs découvertes littéraires et d'échanger des livres qui attendent patiemment sur les étagères.
     </p>
-    <p><span style="color: #555555; font-size: 12px;">L'équipe Tom Troc</span></p>
+    <div class="layout-row-values">   
+        <p><span style="color: #555555; font-size: 12px;">L'équipe Tom Troc</span></p>
+        <img src="images/home/coeur.svg">
+    </div>
 </div>
