@@ -5,7 +5,7 @@
         <p class="color-muted">Membre depuis <?= $timeSinceSubscription ?> </p>
         <p class="small">BIBLIOTHEQUE</p>
         <p><span class="icon-book"></span> <?= htmlspecialchars($booksCount) ?> livres</p>
-        <a href="index.php?page=showMessenger&id=<?= htmlspecialchars($id) ?>" class="cta-button-inverted">Écrire un message</a>
+        <a href="index.php?page=messaging&id=<?= htmlspecialchars($id) ?>" class="cta-button-inverted">Écrire un message</a>
     </div>
     <div class="profile-layout ">
         <table class="books-array">

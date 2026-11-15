@@ -66,9 +66,6 @@ class BookController
             'image/webp' => 'webp'
         ];
 
-        var_dump($mimeType);
-        var_dump(array_key_exists($mimeType, $allowedTypes));
-
         // Enregistre l'erreur si le type du fichier n'est pas autorisé
         if (!array_key_exists($mimeType, $allowedTypes)) {
             $coverErrors[] = "Le format de l'image n'est pas autorisé.";
@@ -122,26 +119,87 @@ class BookController
         $userId = $_SESSION['user']['id'] ?? null;
 
         // Vérifie si le formulaire a été soumis.
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Récupérer les données individuellement
-            $title = trim($_POST['title']);
-            $author = trim($_POST['author']);
-            $description = trim($_POST['description']);
-            $availability = trim($_POST['availability']);
-            if ($_FILES['cover']['error'] === UPLOAD_ERR_OK){
-                $cover = "images/books/" . $_FILES['cover']['name'];
-                // Déplace l'image dans le dossier du site.
-                move_uploaded_file($_FILES['cover']['tmp_name'], $cover);
-            } else $cover = "";
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+            header('Location: index.php?page=myAccount');
+            exit;
         }
-        
-        // Instancie le BookManager pour créer le livre dans la BDD.
-        $bookManager = new BookManager();
-        $bookManager->createBook($title, $author, $description, $availability, $cover, $userId);
 
-        // Redirige vers la page mon compte.
-        header('Location: index.php?page=myAccount');
+        $coverErrors = [];
+        $formErrors = [];
+
+        // Récupère les données individuellement.
+        $title = trim($_POST['title'] ?? '');
+        $author = trim($_POST['author'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $availability = trim($_POST['availability'] ?? '');
+
+        // Vérification des informations du livre.
+        if (empty($title)) {
+            $formErrors[] = "Le titre du livre est obligatoire.";
+        }
+
+        if (empty($author)) {
+            $formErrors[] = "L'auteur du livre est obligatoire.";
+        }
+
+        if (mb_strlen($description) < 100) {
+            $formErrors[] = "La description doit contenir au minimum 100 caractères.";
+        }
+
+        if (!in_array($availability, ['0', '1'], true)) {
+            $formErrors[] = "Veuillez sélectionner une disponibilité valide.";
+        }
+
+        // Instancie le BookManager.
+        $bookManager = new BookManager();
+
+        // MISE A JOUR DE LA COVER.
+        $cover = "";
+
+        // Vérifie si une photo a été sélectionnée.
+        if (!empty($_FILES['cover']['name'])) {
+            // Récupère et vérifie le fichier.
+            $file = $this->checkImageUpload($coverErrors);
+            if (empty($coverErrors)) {
+                // Vérifie sa taille.
+                $this->checkImageSize($file, $coverErrors);
+            }
+            if (empty($coverErrors)) {
+                // Récupère son extension.
+                $extension = $this->checkImageMimeType($file, $coverErrors);
+            }
+            if (empty($coverErrors)) {
+                // Crée un nom de fichier unique.
+                $fileName = 'book_new_' . bin2hex(random_bytes(8)) . '.' . $extension;
+                // Déplace le fichier dans le dossier du serveur.
+                $cover = $this->setFileDirectory($file, $fileName, $coverErrors);
+            }
+        }
+
+        // CRÉATION DU LIVRE.
+        // Si aucune erreur n'a été détectée.
+        if (empty($formErrors) && empty($coverErrors)) {
+            $bookManager->createBook(
+                $title,
+                $author,
+                $description,
+                $availability,
+                $cover,
+                $userId
+            );
+
+            // Redirige vers la page mon compte.
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
+
+        // En cas d'erreur, on réaffiche le formulaire.
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'bookPost.php';
+        $content = ob_get_clean();
+        require TEMPLATE_VIEW_PATH . 'main.php';
     }
+
 
     public function deleteBook()
     {
