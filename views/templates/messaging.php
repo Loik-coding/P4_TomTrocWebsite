@@ -30,6 +30,10 @@
 
                     <?php foreach ($messages as $message) : ?>
                         <?php
+                        // Ignore les messages masqués.
+                        if ($message->getHide() == 1) {
+                            continue;
+                        }
                         // Détermine si le message est envoyé ou reçu.
                         $isSent = $message->getSenderId() == $userId;
                         // Détermine le pseudo de l'expéditeur.

@@ -125,6 +125,11 @@ switch ($page) {
         $controller->sendMessage();
         break;
 
+    case 'createFirstMessage' :
+        $controller = new MessageController();
+        $controller->createFirstMessage();
+        break;
+
     default:
         echo "Page introuvable.";
         break;

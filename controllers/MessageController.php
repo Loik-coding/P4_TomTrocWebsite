@@ -79,7 +79,7 @@ class MessageController
             exit;
         }
 
-
+        $messageManager = new MessageManager();
         // Envoie le message.
         $messageManager->sendMessage($userId, $contactId, $content);
 
@@ -88,5 +88,28 @@ class MessageController
         exit;
     }
 
+    public function createFirstMessage()
+    {
+        // Vérifie que l'utilisateur est connecté.
+        if (!Utils::isUserConnected()) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        // Get l'id du user connecté.
+        $userId = $_SESSION['user']['id'] ?? null;
+
+        // Récupère l'ID du contact sélectionné.
+        $contactId = Utils::request('id', -1);
+
+        $content = '';
+
+        $messageManager = new MessageManager();
+        // Envoie le message.
+        $messageManager->sendMessage($userId, $contactId, $content, 1);
+
+        // Recharge la page.
+        header('Location: index.php?page=messaging&id=' . $contactId);
+        exit;
+    }
 
 }
