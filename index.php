@@ -107,12 +107,6 @@ switch ($page) {
         $controller->bookModifier();
         break;
 
-    //Launch method to change the cover picture of the book
-    case 'updateBookCover' :
-        $controller = new BookController();
-        $controller->updateBookCover();
-        break;
-
     //Launch method to update book's datas
     case 'updateBook' :
         $controller = new BookController();

@@ -31,32 +31,32 @@ class BookController
 //    02 - CONTROLES D'IMAGES, NOMMAGE, ENREGISTREMENT                           //
 //-------------------------------------------------------------------------------//
 
-    private function checkImageUpload(int $bookId): array
+    private function checkImageUpload(array &$coverErrors): array
     {
         // Vérifie que le fichier a été envoyé sinon redirige.
         if (!isset($_FILES['cover']) ||
             $_FILES['cover']['error'] !== UPLOAD_ERR_OK) {
-            header('Location: index.php?page=bookModifier&id=' . $bookId);
-            exit;
-        }  
+
+            $coverErrors[] = "Une erreur est survenue lors de l'envoi de l'image.";
+            return [];
+        }
         // Retourne le fichier.
         return $_FILES['cover'];
     }
 
-    private function checkImageSize(array $file, int $bookId): void
-    {
+    private function checkImageSize(array $file, array &$coverErrors): void
+    {        
         // Variable de taille de fichier max (3Mo).
         $maxSize = 3 * 1024 * 1024;
-        // Contrôle la taille de l'image et redirige si nécessaire.
-        if ($file['size'] > $maxSize) {
-            header('Location: index.php?page=bookModifier&id=' . $bookId);
-            exit;
-        }
-    }
 
-    private function checkImageMimeType(array $file, int $bookId): string
+        if ($file['size'] > $maxSize) {
+            $coverErrors[] = "L'image ne doit pas dépasser 3 Mo.";
+        }
+    }       
+
+    private function checkImageMimeType(array $file, array &$coverErrors): string
     {
-        // Vérifier le véritable type MIME du fichier
+        // Vérifie le véritable type MIME du fichier
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->file($file['tmp_name']);
 
@@ -66,21 +66,24 @@ class BookController
             'image/webp' => 'webp'
         ];
 
-        // Redirige si le type du fichier n'est pas autorisé
+        var_dump($mimeType);
+        var_dump(array_key_exists($mimeType, $allowedTypes));
+
+        // Enregistre l'erreur si le type du fichier n'est pas autorisé
         if (!array_key_exists($mimeType, $allowedTypes)) {
-            header('Location: index.php?page=bookModifier&id=' . $bookId);
-            exit;
+            $coverErrors[] = "Le format de l'image n'est pas autorisé.";
+            return '';
         }
-
-        // Vérifier qu'il s'agit bien d'une image
+        // Vérifie qu'il s'agit bien d'une image
         if (getimagesize($file['tmp_name']) === false) {
-            header('Location: index.php?page=bookModifier&id=' . $bookId);
-            exit;
+            $coverErrors[] = "Le fichier envoyé n'est pas une image valide.";
+            return '';
         }
-
         // Retourne les extensions autorisées.
         return $allowedTypes[$mimeType];
+        
     }
+
 
     private function setFileName(int $bookId, string $extension): string
     {
@@ -90,21 +93,19 @@ class BookController
         return $fileName;
     }    
 
-
-    private function setFileDirectory(array $file, string $fileName, int $bookId): string
+    private function setFileDirectory(array $file, string $fileName, array &$coverErrors): string
     {
         // Définir le dossier de destination
         $uploadDirectory = dirname(__DIR__) . '/images/books/';
 
         // Déplacer le fichier dans le dossier
         if (!move_uploaded_file($file['tmp_name'], $uploadDirectory . $fileName)) {
-            header('Location: index.php?page=bookModifier&id=' . $bookId);
-            exit;
+            $coverErrors[] = "Impossible d'enregistrer l'image.";
+            return '';
         }
 
         // Chemin à enregistrer dans la BDD
-        $coverPath = 'images/books/' . $fileName;
-        return $coverPath;
+        return 'images/books/' . $fileName;
     }
 
 
@@ -178,68 +179,110 @@ class BookController
 //-------------------------------------------------------------------------------//
 
 
-// Met à jour les informations d'un livre à partir d'un formulaire.
-public function updateBook()
-{
-    // Vérifie que le formulaire a été soumis.
-    if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        header('Location: index.php?page=myAccount');
-        exit;
-    }
 
-    // Récupère l'id du livre concerné.
-    $bookId = Utils::request("id", -1);
+    public function updateBook()
+    {
+        // Vérifie que le formulaire a été soumis.
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
 
-    // Redirige si l'utilisateur n'est pas connecté.
-    $this->redirectIfNotConnected();
+        // Récupère l'id du livre concerné.
+        $bookId = Utils::request("id", -1);
 
-    // Vérifie que le livre appartient à l'utilisateur connecté.
-    $this->checkBooksOwner($bookId, "home");
+        $coverErrors = [];
+        $formErrors = [];
 
-    // Récupère les informations du formulaire.
-    $title = trim($_POST['title']);
-    $author = trim($_POST['author']);
-    $description = trim($_POST['description']);
-    $availability = trim($_POST['availability']);
+        // Vérifie si l'utilisateur est connecté.
+        $this->redirectIfNotConnected();
 
-    $bookManager = new BookManager();
+        // Vérifie que le livre appartient à l'utilisateur connecté.
+        $this->checkBooksOwner($bookId, "home");
 
-    // MISE A JOUR DE LA COVER.
+        // Récupère les informations du formulaire.
+        $title = trim($_POST['title'] ?? '');
+        $author = trim($_POST['author'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $availability = trim($_POST['availability'] ?? '');
 
-    // Vérifie si une nouvelle photo a été sélectionnée.
-    if (!empty($_FILES['cover']['name'])) {
+        // Vérification des informations du livre.
+        if (empty($title)) {
+            $formErrors[] = "Le titre du livre est obligatoire.";
+        }
 
-        // Récupère et vérifie le fichier.
-        $file = $this->checkImageUpload($bookId);
+        if (empty($author)) {
+            $formErrors[] = "L'auteur du livre est obligatoire.";
+        }
 
-        // Vérifie sa taille.
-        $this->checkImageSize($file, $bookId);
+        if (mb_strlen($description) < 100) {
+            $formErrors[] = "La description doit contenir au minimum 100 caractères.";
+        }
 
-        // Récupère son extension.
-        $extension = $this->checkImageMimeType($file, $bookId);
+        if (!in_array($availability, ['0', '1'], true)) {
+            $formErrors[] = "Veuillez sélectionner une disponibilité valide.";
+        }
 
-        // Crée un nouveau nom de fichier.
-        $fileName = $this->setFileName($bookId, $extension);
+        $bookManager = new BookManager();
 
-        // Déplace le fichier dans un dossier du serveur.
-        $coverPath = $this->setFileDirectory($file, $fileName, $bookId);
+        // MISE A JOUR DE LA COVER.
 
-        // Met à jour la photo dans la BDD.
-        $bookManager->updateBookCover($bookId, $coverPath);
-    }
+        // Vérifie si une nouvelle photo a été sélectionnée.
+        if (!empty($_FILES['cover']['name'])) {
 
-    // MISE A JOUR DES INFORMATIONS.
+            // Récupère et vérifie le fichier.
+            $file = $this->checkImageUpload($coverErrors);
 
-    $bookManager->updateBook(
-        $bookId,
-        $title,
-        $author,
-        $description,
-        $availability
-    );
+            if (empty($coverErrors)) {
+                // Vérifie sa taille.
+                $this->checkImageSize($file, $coverErrors);
+            }
 
-    // Redirection après modification.
-    header('Location: index.php?page=bookModifier&id=' . $bookId);
-    exit;
+            if (empty($coverErrors)) {
+                // Récupère son extension.
+                $extension = $this->checkImageMimeType($file, $coverErrors);
+            }
+
+            if (empty($coverErrors)) {
+                // Crée un nouveau nom de fichier.
+                $fileName = $this->setFileName($bookId, $extension);
+
+                // Déplace le fichier dans un dossier du serveur.
+                $coverPath = $this->setFileDirectory($file, $fileName, $coverErrors);
+            }
+
+            if (empty($coverErrors)) {
+                // Met à jour la photo dans la BDD.
+                $bookManager->updateBookCover($bookId, $coverPath);
+            }
+        }
+
+        // MISE A JOUR DES INFORMATIONS.
+
+        if (empty($formErrors)) {
+
+            $bookManager->updateBook(
+                $bookId,
+                $title,
+                $author,
+                $description,
+                $availability
+            );
+        }
+
+        // Si aucune erreur n'a été détectée.
+        if (empty($formErrors) && empty($coverErrors)) {
+            header('Location: index.php?page=bookModifier&id=' . $bookId);
+            exit;
+        }
+
+        // En cas d'erreur, on récupère les informations du livre.
+        $book = $bookManager->getBookById($bookId);
+
+        // On réaffiche le formulaire.
+        ob_start();
+        require TEMPLATE_VIEW_PATH . 'bookModifier.php';
+        $content = ob_get_clean();
+        require TEMPLATE_VIEW_PATH . 'main.php';
     }
 }

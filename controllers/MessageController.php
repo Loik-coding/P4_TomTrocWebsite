@@ -15,7 +15,7 @@ class MessageController
 
         // On instancie les managers.
         $messageManager = new MessageManager();
-        $userManager = new userManager();
+        $userManager = new UserManager();
 
         // Récupère les contacts et leur dernier message.
         $contacts = $messageManager->getContacts($userId);
@@ -79,14 +79,6 @@ class MessageController
             exit;
         }
 
-        // Vérifie que le contact appartient bien aux conversations de l'utilisateur.
-        $messageManager = new MessageManager();
-        $contacts = $messageManager->getContacts($userId);
-
-        if (!isset($contacts[$contactId])) {
-            header('Location: index.php?page=messaging');
-            exit;
-        }
 
         // Envoie le message.
         $messageManager->sendMessage($userId, $contactId, $content);

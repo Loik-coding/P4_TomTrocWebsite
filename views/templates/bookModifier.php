@@ -5,6 +5,21 @@
 
 <h1>Modifier les informations</h1>
 
+<?php if (!empty($coverErrors)): ?>
+    <div class="errors">
+        <?php foreach ($coverErrors as $coverError): ?>
+            <p><?= htmlspecialchars($coverError) ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+<?php if (!empty($formErrors)): ?>
+    <div class="errors">
+        <?php foreach ($formErrors as $formError): ?>
+            <p><?= htmlspecialchars($formError) ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <!-- Formulaire commun aux deux colonnes -->
 <form id="updateBook"
       action="index.php?page=updateBook&id=<?= htmlspecialchars($book->getId()) ?>"
