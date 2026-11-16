@@ -67,6 +67,6 @@
     </p>
     <div class="layout-row-values">   
         <p><span style="color: #555555; font-size: 12px;">L'équipe Tom Troc</span></p>
-        <img src="images/home/coeur.svg">
+        <img src="images/home/coeur.svg" alt="logo coeur">
     </div>
 </div>

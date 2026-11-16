@@ -13,8 +13,8 @@
                 $isToday = (time() - $messageDate) < 86400;
                 ?>
 
-                <a class="messaging-card"
-                href="index.php?page=messaging&contactId=<?= $contactId ?>">
+                <a class="messaging-card <?= (int) Utils::request('contactId', -1) === (int) $contactId ? 'active' : '' ?>"
+                    href="index.php?page=messaging&contactId=<?= $contactId ?>">
 
                     <!-- Photo de profil -->
                     <img
@@ -61,7 +61,7 @@
             <div class="messages-list">
                 <?php if ($contactPseudo !== null) : ?>
                     <div class="messaging-card">
-                        <img class="messaging-card-picture" src="<?= htmlspecialchars($contactPicture) ?>">
+                        <img class="messaging-card-picture" src="<?= htmlspecialchars($contactPicture) ?>" alt="Photo de profil de <?= htmlspecialchars($contactPseudo) ?>">
                         <h3><?= htmlspecialchars($contactPseudo) ?></h3>
                     </div>
 
@@ -93,7 +93,7 @@
                     <form method="POST"
                         action="index.php?page=sendMessage&contactId=<?= (int) Utils::request('contactId', -1) ?>"
                         class="messaging-form">
-
+                        <label for="message-content" class="visually-hidden">Votre message</label>
                         <textarea name="content"
                                 placeholder="Tapez votre message ici"
                                 required></textarea>

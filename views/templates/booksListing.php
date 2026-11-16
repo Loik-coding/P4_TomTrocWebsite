@@ -5,7 +5,8 @@
     <div class="align-right">
         <form class="searchbar" action="index.php" method="GET" role="search">
             <input type="hidden" name="page" value="booksListing">
-            <button type="submit"><img src="images/logo/logo-loupe.svg" alt=""></button>
+            <button type="submit"><img src="images/logo/logo-loupe.svg" alt="logo loupe"></button>
+            <label for="search-book" class="visually-hidden">Rechercher un livre</label>
             <input type="search" name="q" placeholder="Rechercher un livre" value="<?= htmlspecialchars($search ?? '') ?>"/>
         </form>
     </div>

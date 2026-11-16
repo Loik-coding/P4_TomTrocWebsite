@@ -47,6 +47,6 @@
         </form>
     </div>
     <div class="book-cover">
-        <img src="images/home/inscription-image.png">
+        <img src="images/home/inscription-image.png" alt="photo d'une bibliothèque">
     </div>
 </div>

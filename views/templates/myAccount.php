@@ -73,7 +73,7 @@
                     </td>
                     <td class="actions">
                         <a href="index.php?page=bookModifier&id=<?= $userBook->getId() ?>">Éditer</a>
-                        <a href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" 
+                        <a class="supprimer" href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" 
                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer : <?= htmlspecialchars($userBook->getTitle()) ?> de <?= htmlspecialchars($userBook->getAuthor()) ?>?');">
                             Supprimer
                         </a>

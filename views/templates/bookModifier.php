@@ -30,11 +30,11 @@
 <div class="layout-row">
 
     <div class="update-book">
-        <p>Photo</p>
+        <span class="color-muted"><p>Photo</p></span>
         <img src="<?= htmlspecialchars($book->getCover()) ?>"
              alt="Photo de couverture de <?= htmlspecialchars($book->getTitle()) ?>">
 
-        <label for="cover">Modifier la photo</label>
+        <label class="right-muted" for="cover">Modifier la photo</label>
 
         <input type="file"
                id="cover"

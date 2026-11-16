@@ -12,7 +12,7 @@
 
     <header>
         <nav class="nav-left">
-            <a href="index.php?page=home"><img src="images/logo/header-logo.svg"></a>
+            <a href="index.php?page=home"><img src="images/logo/header-logo.svg" alt="logo TomTroc"></a>
             <a href="index.php?page=home"
             class="<?= ($_GET['page'] ?? '') === 'home' ? 'active' : '' ?>">
                 Accueil
@@ -58,7 +58,7 @@
         <a href="index.php?page=booksListing">Politique de confidentialité</a>
         <a href="index.php?page=booksListing">Mentions légales</a>
         <p>Tom Troc©</p>
-        <img src="images/logo/logo-TT.svg" width=22px>
+        <img src="images/logo/logo-TT.svg" width=22px alt="logo TT">
     </footer>
 
 </body>
