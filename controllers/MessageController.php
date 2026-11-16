@@ -25,6 +25,12 @@ class MessageController
             $contact = $userManager->getUserById($contactId);
             $contacts[$contactId]['pseudo'] = $contact->getPseudo();
         }
+        // Récupère le pseudo et la photo de chaque contact.
+        foreach ($contacts as $contactId => $message) {
+            $contact = $userManager->getUserById($contactId);
+            $contacts[$contactId]['pseudo'] = $contact->getPseudo();
+            $contacts[$contactId]['profilePicture'] = $contact->getProfilePicture();
+        }
 
         // Initialise les variables utilisées dans la vue.
         $messages = [];
@@ -36,8 +42,9 @@ class MessageController
         // Vérifie que le contact appartient bien à la liste des contacts.
         if (isset($contacts[$contactId])) {
 
-            // Récupère son pseudo.
+            // Récupère son pseudo et sa photo.
             $contactPseudo = $contacts[$contactId]['pseudo'];
+            $contactPicture = $contacts[$contactId]['profilePicture'];
 
             // Récupère les messages échangés.
             $messages = $messageManager->getMessagesWithUser($userId, $contactId);
@@ -62,11 +69,11 @@ class MessageController
         $userId = $_SESSION['user']['id'] ?? null;
 
         // Récupère l'ID du contact sélectionné.
-        $contactId = Utils::request('id', -1);
+        $contactId = Utils::request('contactId', -1);
 
         // Vérifie si le formulaire a été soumis.
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: index.php?page=messaging&id=' . $contactId);
+            header('Location: index.php?page=messaging&contactId=' . $contactId);
             exit;
         }       
         
@@ -75,7 +82,7 @@ class MessageController
 
         // Vérifie que le message n'est pas vide.
         if ($content === '') {
-            header('Location: index.php?page=messaging&id=' . $contactId);
+            header('Location: index.php?page=messaging&contactId=' . $contactId);
             exit;
         }
 

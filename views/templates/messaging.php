@@ -1,32 +1,69 @@
 <section class="messaging-page">
 
-    <h1>Messagerie</h1>
-
     <div class="messaging-container">
         <!-- Colonne des contacts -->
+
         <div class="messaging-list">
+            <h1>Messagerie</h1>
+
             <?php foreach ($contacts as $contactId => $contact) : ?>
+
+                <?php
+                $messageDate = strtotime($contact['date']);
+                $isToday = (time() - $messageDate) < 86400;
+                ?>
+
                 <a class="messaging-card"
-                   href="index.php?page=messaging&contactId=<?= $contactId ?>">
-                    <div class="messaging-contact">
-                        <?= htmlspecialchars($contact['pseudo']) ?>
+                href="index.php?page=messaging&contactId=<?= $contactId ?>">
+
+                    <!-- Photo de profil -->
+                    <img
+                        class="messaging-card-picture"
+                        src="<?= htmlspecialchars($contact['profilePicture']) ?>"
+                        alt="Photo de <?= htmlspecialchars($contact['pseudo']) ?>"
+                    >
+
+                    <!-- Informations du contact -->
+                    <div class="messaging-card-info">
+
+                        <!-- Première ligne : pseudo et date -->
+                        <div class="messaging-card-header">
+
+                            <span class="messaging-contact">
+                                <?= htmlspecialchars($contact['pseudo']) ?>
+                            </span>
+
+                            <span class="messaging-date">
+                                <?= $isToday
+                                    ? date('H:i', $messageDate)
+                                    : date('d/m', $messageDate)
+                                ?>
+                            </span>
+
+                        </div>
+
+                        <!-- Deuxième ligne : aperçu du message -->
+                        <div class="messaging-content">
+                            <?= htmlspecialchars($contact['content']) ?>
+                        </div>
+
                     </div>
-                    <div class="messaging-content">
-                        <?= htmlspecialchars($contact['content']) ?>
-                    </div>
-                    <div class="messaging-date">
-                        <?= date('d/m/Y à H:i', strtotime($contact['date'])) ?>
-                    </div>
+
                 </a>
+
             <?php endforeach; ?>
+
         </div>
+
 
         <!-- Colonne des messages -->
         <div class="messaging-conversation">
             <div class="messages-list">
                 <?php if ($contactPseudo !== null) : ?>
-
-                    <h2>Conversation avec <?= htmlspecialchars($contactPseudo) ?></h2>
+                    <div class="messaging-card">
+                        <img class="messaging-card-picture" src="<?= htmlspecialchars($contactPicture) ?>">
+                        <h3><?= htmlspecialchars($contactPseudo) ?></h3>
+                    </div>
 
                     <?php foreach ($messages as $message) : ?>
                         <?php
@@ -39,8 +76,6 @@
                         ?>
                         <div class="message-wrapper <?= $isSent ? 'message-sent' : 'message-received' ?>">
                             <div class="message-info">
-                                <?= htmlspecialchars($senderPseudo) ?>
-                                ·
                                 <?= date('d/m/Y à H:i', strtotime($message->getDate())) ?>
                             </div>
                             <div class="message">
@@ -60,7 +95,7 @@
                         class="messaging-form">
 
                         <textarea name="content"
-                                placeholder="Écrire un message..."
+                                placeholder="Tapez votre message ici"
                                 required></textarea>
 
                         <button type="submit">Envoyer</button>
