@@ -7,7 +7,6 @@ class Message
     private $receiverId;
     private $date;
     private $content;
-    private $hide;
 
     public function __construct(array $data)
     {
@@ -16,7 +15,6 @@ class Message
         $this->receiverId = $data['receiver_id'];
         $this->date = $data['date'];
         $this->content = $data['content'];
-        $this->hide = $data['hide'];
     }
 
     public function getId()
@@ -43,10 +41,4 @@ class Message
     {
         return $this->content;
     }
-
-    public function getHide()
-    {
-        return $this->hide;
-    }
-
 }

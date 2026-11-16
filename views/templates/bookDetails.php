@@ -16,6 +16,6 @@
                 <p><?=htmlspecialchars($book->getUserPseudo())?></p>
             </a>
         </div>
-        <a href="index.php?page=createFirstMessage&id=<?=htmlspecialchars($book->getUserId())?>" class="cta-button">Envoyer un message</a>
+        <a href="index.php?page=firstMessage&contactId=<?=htmlspecialchars($book->getUserId())?>&bookId=<?=htmlspecialchars($book->getId())?>" class="cta-button">Envoyer un message</a>
     </div>
 </div>

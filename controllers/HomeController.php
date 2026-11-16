@@ -91,11 +91,15 @@ class HomeController
     public function userProfile()
     {
         $id = Utils::request("id", -1);
-
+        
         //on instancie le manager
         $userManager = new UserManager();
-
+        //Récupère l'id du user et vérifie s'il existe.
         $user = $userManager->getUserById($id);
+        if ($user === null) {
+            header('Location: index.php?page=booksListing');
+            return;
+        }
         //Get user pseudo
         $userPseudo = $user->getPseudo();
         //Get user email

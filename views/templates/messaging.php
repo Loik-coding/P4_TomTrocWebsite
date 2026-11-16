@@ -7,7 +7,7 @@
         <div class="messaging-list">
             <?php foreach ($contacts as $contactId => $contact) : ?>
                 <a class="messaging-card"
-                   href="index.php?page=messaging&id=<?= $contactId ?>">
+                   href="index.php?page=messaging&contactId=<?= $contactId ?>">
                     <div class="messaging-contact">
                         <?= htmlspecialchars($contact['pseudo']) ?>
                     </div>
@@ -30,10 +30,6 @@
 
                     <?php foreach ($messages as $message) : ?>
                         <?php
-                        // Ignore les messages masqués.
-                        if ($message->getHide() == 1) {
-                            continue;
-                        }
                         // Détermine si le message est envoyé ou reçu.
                         $isSent = $message->getSenderId() == $userId;
                         // Détermine le pseudo de l'expéditeur.
@@ -59,7 +55,7 @@
             </div>
             <div>
                 <?php if ($contactPseudo !== null) : ?>
-                    <form method="POST" action="index.php?page=sendMessage&id=<?= (int) Utils::request('id', -1) ?>" class="messaging-form">
+                    <form method="POST" action="index.php?page=sendMessage&contactId=<?= (int) Utils::request('contactId', -1) ?>" class="messaging-form">
                         <textarea
                             name="content"
                             placeholder="Écrire un message..."

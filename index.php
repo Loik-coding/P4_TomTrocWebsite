@@ -125,9 +125,14 @@ switch ($page) {
         $controller->sendMessage();
         break;
 
-    case 'createFirstMessage' :
+    case 'firstMessage' :
         $controller = new MessageController();
-        $controller->createFirstMessage();
+        $controller->firstMessage();
+        break;
+
+    case 'sendFirstMessage' :
+        $controller = new MessageController();
+        $controller->sendFirstMessage();
         break;
 
     default:
