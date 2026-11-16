@@ -53,19 +53,20 @@
                     <p>Sélectionnez une conversation pour afficher vos messages.</p>
                 <?php endif; ?>
             </div>
-            <div>
-                <?php if ($contactPseudo !== null) : ?>
-                    <form method="POST" action="index.php?page=sendMessage&contactId=<?= (int) Utils::request('contactId', -1) ?>" class="messaging-form">
-                        <textarea
-                            name="content"
-                            placeholder="Écrire un message..."
-                            required
-                        ></textarea>
-                        <button type="submit">
-                            Envoyer
-                        </button>
+            <?php if ($contactPseudo !== null) : ?>
+                <div class="messaging-form-container">
+                    <form method="POST"
+                        action="index.php?page=sendMessage&contactId=<?= (int) Utils::request('contactId', -1) ?>"
+                        class="messaging-form">
+
+                        <textarea name="content"
+                                placeholder="Écrire un message..."
+                                required></textarea>
+
+                        <button type="submit">Envoyer</button>
                     </form>
-                <?php endif; ?>
+                </div>
+            <?php endif; ?>
             </div>
         </div>
     </div>
