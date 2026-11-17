@@ -232,32 +232,68 @@ main > h1 {
     padding: 24px 20%;
 }
 
+
+/* PAGE PROFIL UTILISATEUR */
+
 .layout-row--userProfile {
     display: flex;
     align-items: flex-start;
+    justify-content: center;
     gap: 25px;
-    padding: 24px 5%;
+    padding: 24px 0;
 }
 
-.layout-row--userProfile .profile-layout {
-    margin: 0;
-    background-color: transparent;
-}
+/* Bloc gauche : informations utilisateur */
 
 .layout-row--userProfile .profile-layout:first-child {
+    flex: 0 0 340px;
+    width: 340px;
     height: 508px;
+    margin: 0;
+    padding: 24px;
+    background-color: var(--color-white);
+    border-radius: 20px;
 }
 
+/* Bloc droit : bibliothèque */
+
 .layout-row--userProfile .profile-layout:last-child {
-    flex: 1;
-    height: auto;
+    flex: 0 0 770px;
+    width: 770px;
     min-width: 0;
+    height: auto;
+    margin: 0;
+    padding: 0;
     display: block;
+    background-color: transparent;
+    border: none;
+    border-radius: 20px;
 }
+
+/* Tableau des livres */
 
 .layout-row--userProfile .books-array {
     width: 100%;
     margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 20px;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+/* Suppression des espacements internes des cellules */
+
+.layout-row--userProfile .books-array th,
+.layout-row--userProfile .books-array td {
+    padding: 15px 10px;
+    border: none;
+}
+
+/* Séparation discrète entre les lignes */
+
+.layout-row--userProfile .books-array tbody tr {
+    border-bottom: 1px solid var(--color-border);
 }
 
 .login-form {
