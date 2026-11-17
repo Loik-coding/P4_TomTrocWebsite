@@ -1,6 +1,6 @@
-/* =========================
-   1. VARIABLES ET BASE
-========================= */
+/* ==================================================
+   1. VARIABLES, TYPOGRAPHIES ET BASE DU DOCUMENT
+================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
@@ -42,8 +42,6 @@ p { font-size: 14px; }
 
 .small {
     font-size: 10px;
-    margin: none;
-    padding: none;
 }
 
 .color-muted {
@@ -57,9 +55,9 @@ p { font-size: 14px; }
     margin-right: 170px;
 }
 
-/* =========================
-   2. HEADER ET NAVIGATION
-========================= */
+/* ==================================================
+   2. EN-TÊTE, NAVIGATION ET FIL D'ARIANE
+================================================== */
 header {
     display: flex;
     align-items: center;
@@ -94,6 +92,37 @@ header nav a.active {
 
 .nav-left { justify-content: flex-start; }
 .nav-right { justify-content: flex-end; }
+
+/* Formulaire de déconnexion (POST) : conserve l'apparence d'un lien de navigation. */
+.nav-right .logout-form {
+    display: flex;
+    align-items: center;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.nav-right .logout-link {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 300;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.nav-right .logout-link:hover {
+    color: var(--color-primary);
+}
 
 nav a {
     font-size: 14px;
@@ -150,18 +179,14 @@ nav a:hover, .nav-svg:hover { color: var(--color-primary); }
 }
 
 
-/* =========================
-   3. CONTENU ET LAYOUTS
-========================= */
+/* ==================================================
+   3. STRUCTURE GÉNÉRALE ET COMPOSANTS COMMUNS
+================================================== */
 main {
     width: 100%;
     min-height: 75vh;
     margin: auto;
     background: #FAF9F7;
-}
-
-footer {
-    background-color: var(--color-background1);
 }
 
 main > h1 {
@@ -302,9 +327,8 @@ input[type="file"] { display: none; }
     border-radius: 10px;
     font: normal 15px 'Inter', sans-serif;
     transition: all .3s ease;
+    color: var(--color-primary);
 }
-
-.submit-inverted { color: var(--color-primary); }
 
 .submit-inverted:hover {
     color: var(--color-white);
@@ -372,6 +396,7 @@ input[type="file"] { display: none; }
     margin-left: calc(50% - 50vw);
 }
 
+/* Profils et informations de compte */
 .profile-picture {
     width: 135px;
     height: 135px;
@@ -408,13 +433,14 @@ input[type="file"] { display: none; }
     background-color: #EDF2F6;
 }
 
-a.supprimer {
+a.supprimer,
+button.supprimer {
     color: #CB2D2D;
 }
 
-/* =========================
-   4. LIVRES
-========================= */
+/* ==================================================
+   4. LIVRES : CATALOGUE, CARTES ET DÉTAILS
+================================================== */
 .book-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -480,9 +506,9 @@ a.supprimer {
 }
 
 
-/* =========================
-   PAGE MODIFICATION LIVRE
-========================= */
+/* ==================================================
+   5. FORMULAIRES DE CRÉATION ET MODIFICATION DE LIVRE
+================================================== */
 
 /* Formulaire commun invisible */
 #updateBook {
@@ -786,9 +812,9 @@ a.supprimer {
     text-align: center;
 }
 
-/* =========================
-   5. FORMULAIRES
-========================= */
+/* ==================================================
+   6. FORMULAIRES GÉNÉRAUX, CHAMPS ET TABLEAUX
+================================================== */
 form {
     max-width: 480px;
     margin: 0 auto;
@@ -853,7 +879,6 @@ input, textarea , select{
 }
 
 
-
 button {
     padding: 12px 22px;
     border: none;
@@ -865,15 +890,14 @@ button {
 }
 
 
-/* Tableau de la bibliothèque */
+/* Tableaux de bibliothèque et actions associées */
 .books-array {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 8px;
+    border-radius: 20px;
     overflow: hidden;
     background: var(--color-white);
-    text-align: left;
     margin-top: 0;
 }
 
@@ -887,12 +911,14 @@ button {
     color: var(--color-text); 
     font-size: 8px;
     background-color: var(--color-background1);
+    text-align: center;
 }
 
 .books-array td { 
     height: 130px;
     vertical-align: middle; 
     font-size: 12px;
+    text-align: left;
 }
 
 .books-array td img {
@@ -912,6 +938,91 @@ button {
 .books-array .actions a {
     margin : 0 20px;
     text-decoration: underline;
+}
+
+.availability {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    padding: 0 15px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-white);
+    font-family: 'Inter', sans-serif;
+}
+
+.available {
+    background-color: #6DC5A1;
+}
+
+.unavailable {
+    background-color: #C56D6D;
+}
+
+/* Actions Éditer / Supprimer : restent alignées sur une même ligne. */
+.books-array .actions form {
+    display: inline;
+    max-width: none;
+    margin: 0 20px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.books-array .actions button.supprimer,
+.profile-actions button.supprimer {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    color: #CB2D2D;
+    background: transparent;
+    font: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Variante pour les actions placées hors du tableau, si cette classe est utilisée. */
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-actions a {
+    color: var(--color-text);
+    text-decoration: underline;
+}
+
+.profile-actions a.supprimer {
+    color: #CB2D2D;
+}
+
+button.editer {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    color: var(--color-text);
+    background: transparent;
+    font: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.profile-actions form {
+    display: inline;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
 }
 
 .books-array tbody tr {
@@ -941,9 +1052,9 @@ button {
     line-clamp: 4;
 }
 
-/* =========================
-   6. MESSAGES ET FOOTER
-========================= */
+/* ==================================================
+   7. ALERTES ET PIED DE PAGE
+================================================== */
 .errors, .success {
     padding: 15px;
     border-radius: 6px;
@@ -974,8 +1085,9 @@ footer {
 }
 
 
-
-/* PAGE MESSAGERIE */
+/* ==================================================
+   8. MESSAGERIE : LISTE, CONVERSATION ET FORMULAIRE
+================================================== */
 
 .messaging-page {
     width: 100%;
@@ -1082,9 +1194,6 @@ footer {
 }
 
 
-
-
-
 .messaging-conversation {
     display: flex;
     flex-direction: column;
@@ -1168,21 +1277,6 @@ footer {
 
 .messaging-form {
     display: flex;
-    align-items: flex-end;
-    gap: 12px;
-
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-
-    border: none;
-    border-radius: 0;
-    background: transparent;
-}
-
-.messaging-form {
-    display: flex;
     align-items: stretch;
     justify-content: flex-end;
     gap: 12px;
@@ -1253,9 +1347,9 @@ footer {
     }
 }
 
-/* =========================
-   7. RESPONSIVE
-========================= */
+/* ==================================================
+   9. ADAPTATIONS RESPONSIVE
+================================================== */
 @media (max-width: 900px) {
     .book-list { grid-template-columns: repeat(2, 1fr); }
 }

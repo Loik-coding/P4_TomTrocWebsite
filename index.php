@@ -136,6 +136,9 @@ switch ($page) {
         break;
 
     default:
-        echo "Page introuvable.";
+        ob_start();
+        require TEMPLATE_VIEW_PATH . '../error404.php';
+        $content = ob_get_clean();
+        require TEMPLATE_VIEW_PATH . 'main.php';
         break;
 }

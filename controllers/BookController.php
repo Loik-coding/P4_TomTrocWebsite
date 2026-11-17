@@ -201,36 +201,57 @@ class BookController
     }
 
 
+    
     public function deleteBook()
     {
-        // Redirige un utilisateur non connecté sur la page login.
+        // Vérifie que l'utilisateur est connecté.
         $this->redirectIfNotConnected();
 
-        // Récupère l'id du livre concerné.
-        $bookId = Utils::request("id", -1);
+        // Vérifie que la requête utilise bien POST.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            exit('Méthode non autorisée.');
+        }
 
-        // Instancie le BookManager pour trouver le livre dans la BDD.
+        // Vérifie que l'identifiant du livre existe
+        // et qu'il contient uniquement des chiffres.
+        if (!isset($_POST['id']) || !ctype_digit($_POST['id'])) {
+            http_response_code(400);
+            exit('Identifiant de livre invalide.');
+        }
+
+        // Récupère l'identifiant du livre.
+        $bookId = (int) $_POST['id'];
+
+        // Instancie le BookManager.
         $bookManager = new BookManager();
+
+        // Recherche le livre dans la base de données.
         $book = $bookManager->getBookById($bookId);
+
+        // Vérifie que le livre existe.
         if ($book === null) {
-            echo "Livre introuvable.";
-            return;
+            http_response_code(404);
+            exit('Livre introuvable.');
         }
 
-        // Vérifie que le user_id appartenant au livre correspond à l'utilisateur connecté.
-        $userId = $_SESSION['user']['id'] ?? null;
-        if ($book->getUserId() !== $userId) {
-            echo "Vous n'avez pas la permission de supprimer ce livre.";
-            return;
+        // Récupère l'identifiant de l'utilisateur connecté.
+        $userId = (int) $_SESSION['user']['id'];
+
+        // Vérifie que l'utilisateur est propriétaire du livre.
+        if ((int) $book->getUserId() !== $userId) {
+            http_response_code(403);
+            exit("Vous n'avez pas la permission de supprimer ce livre.");
         }
 
-        // Supprime le livre de la BDD.
+        // Supprime le livre de la base de données.
         $bookManager->deleteBookById($bookId);
 
-        // Redirige vers la page mon Compte.
+        // Redirige vers la page Mon compte.
         header('Location: index.php?page=myAccount');
         exit;
     }
+
 
 //-------------------------------------------------------------------------------//
 //    04 - MODIFICATION DE LIVRES                                                //

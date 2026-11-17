@@ -36,7 +36,9 @@
                     <span class="icon-account"></span>
                     Mon compte
                 </a>
-                <a href="index.php?page=logout">Déconnexion</a>                
+                <form action="index.php?page=logout" method="POST" class="logout-form">
+                    <button type="submit" class="logout-link">Déconnexion</button>
+                </form>              
             <?php else : ?>
                 <a href="index.php?page=login"                
                     class="nav-svg <?= ($_GET['page'] ?? '') === 'login' ? 'active' : '' ?>">

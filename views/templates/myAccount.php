@@ -36,7 +36,7 @@
             </div>
             <div>
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" value="<?= htmlspecialchars($user->getPassword()) ?>" required>         
+                <input type="password" id="password" name="password">         
             </div>
             <button class="submit-inverted" type="submit">Enregistrer</button>
         </form>
@@ -69,14 +69,24 @@
                         </span>
                     </td>
                     <td>
-                        <?= $userBook->getAvailability() ? 'Disponible' : 'Indisponible' ?>
+                        <span class="availability <?= $userBook->getAvailability() ? 'available' : 'unavailable' ?>">
+                            <?= $userBook->getAvailability() ? 'disponible' : 'non dispo.' ?>
+                        </span>
                     </td>
                     <td class="actions">
-                        <a href="index.php?page=bookModifier&id=<?= $userBook->getId() ?>">Éditer</a>
-                        <a class="supprimer" href="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" 
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer : <?= htmlspecialchars($userBook->getTitle()) ?> de <?= htmlspecialchars($userBook->getAuthor()) ?>?');">
-                            Supprimer
-                        </a>
+                        <form action="index.php?page=bookModifier&id=<?= $userBook->getId() ?>" method="POST">
+                            <input type="hidden" name="id" value="<?= (int) $userBook->getId() ?>">
+                            <button type="submit" class="editer">
+                                Éditer
+                            </button>
+                        </form>
+                        <form action="index.php?page=deleteBook&id=<?= $userBook->getId() ?>" method="POST"
+                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
+                            <input type="hidden" name="id" value="<?= (int) $userBook->getId() ?>">
+                            <button type="submit" class="supprimer">
+                                Supprimer
+                            </button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach; ?>

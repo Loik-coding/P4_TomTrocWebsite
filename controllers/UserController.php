@@ -301,9 +301,20 @@ class UserController
     // Déconnecte l'utilisateur et redirige vers la page d'accueil
     public function logout()
     {
+        // Vérifie que la requête utilise bien POST.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            exit('Méthode non autorisée.');
+        }
+
+        // Vide les données de session.
         $_SESSION = [];
+
+        // Détruit la session.
         session_destroy();
-        header('location: index.php?page=home');
+
+        // Redirige vers la page d'accueil.
+        header('Location: index.php?page=home');
         exit;
     }
 
@@ -343,50 +354,66 @@ class UserController
         exit;
     }
 
+
     public function updateUser()
     {
         // Redirige un utilisateur non connecté sur la page login.
         $this->redirectIfNotConnected();
 
-        //Get user id from session
-        $userId = $_SESSION['user']['id'] ?? null;
+        // Vérifie que le formulaire a été soumis en POST.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?page=myAccount');
+            exit;
+        }
 
-        //Get user info from database
+        // Récupère l'id de l'utilisateur connecté.
+        $userId = $_SESSION['user']['id'];
+
+        // Récupère les informations actuelles de l'utilisateur.
         $userManager = new UserManager();
         $user = $userManager->getUserById($userId);
-        //Get user pseudo
-        $userPseudo = $user->getPseudo();
-        //Get user email
-        $userEmail = $user->getEmail();
-        //Get user password
-        $userPassword = $user->getPassword();
-        //Get user profile picture
 
-        // Vérifier si le formulaire a été soumis
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Récupérer les données individuellement
-            $newPseudo = trim($_POST['pseudo']);
-            $newEmail = trim($_POST['email']);
-            $newPassword = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
-        }
-        if ($newPseudo !== ""){
+        // Conserve les informations actuelles par défaut.
+        $userPseudo = $user->getPseudo();
+        $userEmail = $user->getEmail();
+        $userPassword = $user->getPassword();
+
+        // Récupère les nouvelles données du formulaire.
+        $newPseudo = trim($_POST['pseudo'] ?? '');
+        $newEmail = trim($_POST['email'] ?? '');
+        $newPassword = trim($_POST['password'] ?? '');
+
+        // Met à jour le pseudo s'il a été renseigné.
+        if ($newPseudo !== '') {
             $userPseudo = $newPseudo;
         }
-        if ($newEmail !== ""){
+
+        // Met à jour l'email s'il a été renseigné.
+        if ($newEmail !== '') {
             $userEmail = $newEmail;
         }
-        if ($newPassword !== ""){
-            $userPassword = $newPassword;
+
+        // Met à jour le mot de passe uniquement
+        // si un nouveau mot de passe a été renseigné.
+        if ($newPassword !== '') {
+            $userPassword = password_hash($newPassword, PASSWORD_DEFAULT);
         }
 
-        $user = $userManager->updateUser($userId, $userPseudo, $userEmail, $userPassword);
-        
+        // Enregistre les modifications en base de données.
+        $userManager->updateUser(
+            $userId,
+            $userPseudo,
+            $userEmail,
+            $userPassword
+        );
+
         // Prépare un message de confirmation.
         $_SESSION['success'] = "Votre compte a bien été modifié.";
-        // Redirige sur la page mon Compte.
+
+        // Redirige vers la page Mon compte.
         header('Location: index.php?page=myAccount');
         exit;
-
     }
+
 
 }
