@@ -447,7 +447,7 @@ a.supprimer {
     margin: 16px 16px 24px;
     font-size: 21px;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     text-align: left;
 }
 
